@@ -12,7 +12,4 @@ SmoothySearch is a smooth and minimal app launcher for Linux built with Rust and
 
 ## Run
 
-Launcher:
-smoothysearch
-Themer:
-smoothysearch --themes
+Launcher: smoothysearch |Themer: smoothysearch --themes
