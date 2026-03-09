@@ -1,0 +1,1 @@
+/home/wemite/smoothysearch/target/debug/smoothysearch: /home/wemite/smoothysearch/ /home/wemite/smoothysearch/build.rs /home/wemite/smoothysearch/qml /home/wemite/smoothysearch/qml/Main.qml /home/wemite/smoothysearch/src /home/wemite/smoothysearch/src/backend.rs /home/wemite/smoothysearch/src/config.rs /home/wemite/smoothysearch/src/main.rs /home/wemite/smoothysearch/src/theme.rs

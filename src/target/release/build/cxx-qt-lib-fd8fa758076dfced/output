@@ -1,0 +1,1400 @@
+cargo::rerun-if-env-changed=QMAKE
+cargo::rerun-if-env-changed=QT_VERSION_MAJOR
+cargo::rerun-if-changed=src/core/init.cpp
+cargo::rerun-if-changed=src/gui/init.cpp
+cargo::rerun-if-changed=src/core/qbytearray.rs
+cargo::rerun-if-changed=src/core/qcoreapplication.rs
+cargo::rerun-if-changed=src/core/qdate.rs
+cargo::rerun-if-changed=src/core/qhash/qhash_i32_qbytearray.rs
+cargo::rerun-if-changed=src/core/qhash/qhash_qstring_qvariant.rs
+cargo::rerun-if-changed=src/core/qline.rs
+cargo::rerun-if-changed=src/core/qlinef.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_bool.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_f32.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_f64.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_i8.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_i16.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_i32.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_i64.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qbytearray.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qdate.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qline.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qlinef.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qmargins.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qmarginsf.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qpersistentmodelindex.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qpoint.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qpointf.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qrect.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qrectf.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qsize.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qsizef.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qstring.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qtime.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qurl.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_quuid.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qvariant.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_u8.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_u16.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_u32.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_u64.rs
+cargo::rerun-if-changed=src/core/qmap/qmap_qstring_qvariant.rs
+cargo::rerun-if-changed=src/core/qmargins.rs
+cargo::rerun-if-changed=src/core/qmarginsf.rs
+cargo::rerun-if-changed=src/core/qmodelindex.rs
+cargo::rerun-if-changed=src/core/qobject.rs
+cargo::rerun-if-changed=src/core/qpersistentmodelindex.rs
+cargo::rerun-if-changed=src/core/qpoint.rs
+cargo::rerun-if-changed=src/core/qpointf.rs
+cargo::rerun-if-changed=src/core/qrect.rs
+cargo::rerun-if-changed=src/core/qrectf.rs
+cargo::rerun-if-changed=src/core/qset/qset_bool.rs
+cargo::rerun-if-changed=src/core/qset/qset_f32.rs
+cargo::rerun-if-changed=src/core/qset/qset_f64.rs
+cargo::rerun-if-changed=src/core/qset/qset_i8.rs
+cargo::rerun-if-changed=src/core/qset/qset_i16.rs
+cargo::rerun-if-changed=src/core/qset/qset_i32.rs
+cargo::rerun-if-changed=src/core/qset/qset_i64.rs
+cargo::rerun-if-changed=src/core/qset/qset_qbytearray.rs
+cargo::rerun-if-changed=src/core/qset/qset_qdate.rs
+cargo::rerun-if-changed=src/core/qset/qset_qpersistentmodelindex.rs
+cargo::rerun-if-changed=src/core/qset/qset_qstring.rs
+cargo::rerun-if-changed=src/core/qset/qset_qtime.rs
+cargo::rerun-if-changed=src/core/qset/qset_qurl.rs
+cargo::rerun-if-changed=src/core/qset/qset_quuid.rs
+cargo::rerun-if-changed=src/core/qset/qset_u8.rs
+cargo::rerun-if-changed=src/core/qset/qset_u16.rs
+cargo::rerun-if-changed=src/core/qset/qset_u32.rs
+cargo::rerun-if-changed=src/core/qset/qset_u64.rs
+cargo::rerun-if-changed=src/core/qsize.rs
+cargo::rerun-if-changed=src/core/qsizef.rs
+cargo::rerun-if-changed=src/core/qstring.rs
+cargo::rerun-if-changed=src/core/qstringlist.rs
+cargo::rerun-if-changed=src/core/qt.rs
+cargo::rerun-if-changed=src/core/qtime.rs
+cargo::rerun-if-changed=src/core/qtlogging.rs
+cargo::rerun-if-changed=src/core/qtypes.rs
+cargo::rerun-if-changed=src/core/qurl.rs
+cargo::rerun-if-changed=src/core/quuid.rs
+cargo::rerun-if-changed=src/core/qvariant/mod.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_bool.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_f32.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_f64.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_i8.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_i16.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_i32.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_i64.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qbytearray.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qdate.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qmodelindex.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qpersistentmodelindex.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qpoint.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qpointf.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qrect.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qrectf.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qsize.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qsizef.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qstring.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qstringlist.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qtime.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qurl.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_quuid.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_u8.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_u16.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_u32.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_u64.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_bool.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_f32.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_f64.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_i8.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_i16.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_i32.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_i64.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qbytearray.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qdate.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qline.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qlinef.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qmargins.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qmarginsf.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qpersistentmodelindex.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qpoint.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qpointf.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qrect.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qrectf.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qsize.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qsizef.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qstring.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qtime.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qurl.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_quuid.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qvariant.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_u8.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_u16.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_u32.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_u64.rs
+cargo::rerun-if-changed=src/core/qanystringview.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qcolor.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qcolor.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qquaternion.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qvector2d.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qvector3d.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qvector4d.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qcolor.rs
+cargo::rerun-if-changed=src/gui/qcolor.rs
+cargo::rerun-if-changed=src/gui/qfont.rs
+cargo::rerun-if-changed=src/gui/qguiapplication.rs
+cargo::rerun-if-changed=src/gui/qimage.rs
+cargo::rerun-if-changed=src/gui/qquaternion.rs
+cargo::rerun-if-changed=src/gui/qpainterpath.rs
+cargo::rerun-if-changed=src/gui/qpainter.rs
+cargo::rerun-if-changed=src/gui/qpen.rs
+cargo::rerun-if-changed=src/gui/qpolygon.rs
+cargo::rerun-if-changed=src/gui/qpolygonf.rs
+cargo::rerun-if-changed=src/gui/qregion.rs
+cargo::rerun-if-changed=src/gui/qvector2d.rs
+cargo::rerun-if-changed=src/gui/qvector3d.rs
+cargo::rerun-if-changed=src/gui/qvector4d.rs
+cargo::rerun-if-changed=src/qml/qqmlapplicationengine.rs
+cargo::rerun-if-changed=src/qml/qqmlengine.rs
+cargo::rerun-if-changed=src/quickcontrols/qquickstyle.rs
+cargo::rerun-if-changed=src/core/qdatetime.rs
+cargo::rerun-if-changed=src/core/qtimezone.rs
+cargo::rerun-if-changed=src/core/qlist/qlist_qdatetime.rs
+cargo::rerun-if-changed=src/core/qset/qset_qdatetime.rs
+cargo::rerun-if-changed=src/core/qvariant/qvariant_qdatetime.rs
+cargo::rerun-if-changed=src/core/qvector/qvector_qdatetime.rs
+cargo::rerun-if-changed=src/core/qbytearray.cpp
+cargo::rerun-if-changed=src/core/qcoreapplication.cpp
+cargo::rerun-if-changed=src/core/qdate.cpp
+cargo::rerun-if-changed=src/core/qhash/qhash.cpp
+cargo::rerun-if-changed=src/core/qline.cpp
+cargo::rerun-if-changed=src/core/qlinef.cpp
+cargo::rerun-if-changed=src/core/qlist/qlist.cpp
+cargo::rerun-if-changed=src/core/qmap/qmap.cpp
+cargo::rerun-if-changed=src/core/qmargins.cpp
+cargo::rerun-if-changed=src/core/qmarginsf.cpp
+cargo::rerun-if-changed=src/core/qmodelindex.cpp
+cargo::rerun-if-changed=src/core/qpersistentmodelindex.cpp
+cargo::rerun-if-changed=src/core/qpoint.cpp
+cargo::rerun-if-changed=src/core/qpointf.cpp
+cargo::rerun-if-changed=src/core/qrect.cpp
+cargo::rerun-if-changed=src/core/qrectf.cpp
+cargo::rerun-if-changed=src/core/qset/qset.cpp
+cargo::rerun-if-changed=src/core/qsize.cpp
+cargo::rerun-if-changed=src/core/qsizef.cpp
+cargo::rerun-if-changed=src/core/qstring.cpp
+cargo::rerun-if-changed=src/core/qstringlist.cpp
+cargo::rerun-if-changed=src/core/qtime.cpp
+cargo::rerun-if-changed=src/core/qtlogging.cpp
+cargo::rerun-if-changed=src/core/qtypes.cpp
+cargo::rerun-if-changed=src/core/qurl.cpp
+cargo::rerun-if-changed=src/core/quuid.cpp
+cargo::rerun-if-changed=src/core/qvariant/qvariant.cpp
+cargo::rerun-if-changed=src/core/qvector/qvector.cpp
+cargo::rerun-if-changed=src/core/qanystringview.cpp
+cargo::rerun-if-changed=src/gui/qcolor.cpp
+cargo::rerun-if-changed=src/gui/qfont.cpp
+cargo::rerun-if-changed=src/gui/qgenericmatrix.cpp
+cargo::rerun-if-changed=src/gui/qguiapplication.cpp
+cargo::rerun-if-changed=src/gui/qimage.cpp
+cargo::rerun-if-changed=src/gui/qpainterpath.cpp
+cargo::rerun-if-changed=src/gui/qpainter.cpp
+cargo::rerun-if-changed=src/gui/qpen.cpp
+cargo::rerun-if-changed=src/gui/qpolygon.cpp
+cargo::rerun-if-changed=src/gui/qpolygonf.cpp
+cargo::rerun-if-changed=src/gui/qquaternion.cpp
+cargo::rerun-if-changed=src/gui/qregion.cpp
+cargo::rerun-if-changed=src/gui/qvector2d.cpp
+cargo::rerun-if-changed=src/gui/qvector3d.cpp
+cargo::rerun-if-changed=src/gui/qvector4d.cpp
+cargo::rerun-if-changed=src/qml/qqmlapplicationengine.cpp
+cargo::rerun-if-changed=src/qml/qqmlengine.cpp
+cargo::rerun-if-changed=src/core/qdatetime.cpp
+cargo::rerun-if-changed=src/core/qtimezone.cpp
+cargo::rerun-if-changed=src/qt_types.cpp
+cxx-qt-build: Discovered dependency `cxx-qt` at: /home/wemite/smoothysearch/target/release/build/cxx-qt-d2648bff17115c99/out/cxxqtbuild/manifest.json
+cargo::rustc-link-arg=-fuse-ld=lld
+cargo::rerun-if-env-changed=QMAKE
+cargo::rerun-if-env-changed=QT_VERSION_MAJOR
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=Qt6Core
+cargo::rustc-link-lib=Qt6QuickControls2
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=Qt6Quick
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=Qt6OpenGL
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=Qt6Gui
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=GLX
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=OpenGL
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=Qt6Qml
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=Qt6Network
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=Qt6Core
+cargo::rustc-link-lib=Qt6Gui
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=Qt6Core
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=GLX
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=OpenGL
+cargo::rustc-link-lib=Qt6Qml
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=Qt6Network
+cargo::rustc-link-search=/usr/lib
+cargo::rustc-link-lib=Qt6Core
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_major, values("5", "6", "7"))
+cargo::rustc-cfg=cxxqt_qt_version_major="6"
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_0)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_1)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_2)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_3)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_4)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_5)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_6)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_7)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_8)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_9)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_10)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_11)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_12)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_13)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_14)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_15)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_16)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_17)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_18)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_19)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_20)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_21)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_22)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_23)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_24)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_25)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_26)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_27)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_28)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_29)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_30)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_31)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_32)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_33)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_34)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_35)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_36)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_37)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_38)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_39)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_40)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_41)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_42)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_43)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_44)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_45)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_46)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_47)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_48)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_49)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_50)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_51)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_52)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_53)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_54)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_55)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_56)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_57)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_58)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_59)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_60)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_61)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_62)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_63)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_64)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_65)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_66)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_67)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_68)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_69)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_70)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_71)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_72)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_73)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_74)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_75)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_76)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_77)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_78)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_79)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_80)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_81)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_82)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_83)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_84)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_85)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_86)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_87)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_88)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_89)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_90)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_91)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_92)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_93)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_94)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_95)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_96)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_97)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_98)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_5_99)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_0)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_1)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_2)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_3)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_4)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_5)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_6)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_7)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_8)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_9)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_10)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_11)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_12)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_13)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_14)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_15)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_16)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_17)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_18)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_19)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_20)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_21)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_22)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_23)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_24)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_25)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_26)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_27)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_28)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_29)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_30)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_31)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_32)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_33)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_34)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_35)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_36)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_37)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_38)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_39)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_40)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_41)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_42)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_43)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_44)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_45)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_46)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_47)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_48)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_49)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_50)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_51)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_52)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_53)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_54)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_55)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_56)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_57)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_58)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_59)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_60)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_61)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_62)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_63)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_64)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_65)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_66)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_67)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_68)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_69)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_70)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_71)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_72)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_73)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_74)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_75)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_76)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_77)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_78)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_79)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_80)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_81)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_82)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_83)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_84)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_85)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_86)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_87)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_88)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_89)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_90)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_91)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_92)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_93)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_94)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_95)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_96)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_97)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_98)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_6_99)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_0)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_1)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_2)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_3)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_4)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_5)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_6)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_7)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_8)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_9)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_10)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_11)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_12)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_13)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_14)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_15)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_16)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_17)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_18)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_19)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_20)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_21)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_22)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_23)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_24)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_25)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_26)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_27)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_28)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_29)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_30)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_31)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_32)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_33)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_34)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_35)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_36)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_37)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_38)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_39)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_40)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_41)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_42)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_43)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_44)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_45)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_46)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_47)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_48)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_49)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_50)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_51)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_52)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_53)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_54)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_55)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_56)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_57)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_58)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_59)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_60)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_61)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_62)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_63)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_64)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_65)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_66)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_67)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_68)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_69)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_70)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_71)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_72)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_73)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_74)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_75)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_76)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_77)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_78)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_79)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_80)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_81)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_82)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_83)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_84)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_85)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_86)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_87)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_88)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_89)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_90)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_91)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_92)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_93)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_94)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_95)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_96)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_97)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_98)
+cargo::rustc-check-cfg=cfg(cxxqt_qt_version_at_least_7_99)
+cargo::rustc-cfg=cxxqt_qt_version_at_least_5
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_0
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_1
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_2
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_3
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_4
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_5
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_6
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_7
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_8
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_9
+cargo::rustc-cfg=cxxqt_qt_version_at_least_6_10
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/assertion_utils.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/common.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qanystringview.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qbytearray.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qcoreapplication.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qdate.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qdatetime.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qhash
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qhash/qhash.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qhash/qhash_QString_QVariant.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qhash/qhash_i32_QByteArray.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qhash/qhash_private.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qline.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlinef.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QByteArray.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QColor.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QDate.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QDateTime.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QLine.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QLineF.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QMargins.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QMarginsF.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QPersistentModelIndex.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QPoint.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QPointF.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QRect.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QRectF.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QSize.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QSizeF.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QString.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QTime.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QUrl.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QUuid.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_QVariant.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_bool.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_f32.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_f64.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_i16.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_i32.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_i64.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_i8.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_private.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_u16.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_u32.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_u64.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist/qlist_u8.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qlist_qvector.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qmap
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qmap/qmap.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qmap/qmap_QString_QVariant.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qmap/qmap_private.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qmargins.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qmarginsf.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qmetaobjectconnection.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qmodelindex.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qobject.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qpersistentmodelindex.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qpoint.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qpointf.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qrect.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qrectf.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_QByteArray.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_QDate.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_QDateTime.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_QPersistentModelIndex.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_QString.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_QTime.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_QUrl.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_QUuid.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_bool.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_f32.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_f64.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_i16.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_i32.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_i64.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_i8.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_private.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_u16.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_u32.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_u64.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qset/qset_u8.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qsize.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qsizef.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qstring.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qstringlist.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qt.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qtime.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qtimezone.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qtlogging.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qtypes.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qurl.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/quuid.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvariant.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QByteArray.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QColor.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QDate.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QDateTime.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QLine.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QLineF.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QMargins.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QMarginsF.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QPersistentModelIndex.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QPoint.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QPointF.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QRect.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QRectF.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QSize.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QSizeF.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QString.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QTime.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QUrl.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QUuid.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_QVariant.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_bool.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_f32.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_f64.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_i16.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_i32.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_i64.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_i8.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_private.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_u16.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_u32.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_u64.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/core/qvector/qvector_u8.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qcolor.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qfont.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qgenericmatrix.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qguiapplication.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qimage.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qpainter.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qpainterpath.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qpen.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qpolygon.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qpolygonf.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qquaternion.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qregion.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qvector2d.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qvector3d.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/gui/qvector4d.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qanystringview.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qbytearray.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qcolor.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qcoreapplication.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qdate.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qdatetime.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qfont.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qgenericmatrix.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qguiapplication.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qhash.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qhash_QString_QVariant.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qhash_i32_QByteArray.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qhash_private.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qimage.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qline.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qlinef.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qlist.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qmap.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qmargins.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qmarginsf.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qmetaobjectconnection.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qml
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qml/qqmlapplicationengine.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qml/qqmlengine.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qmodelindex.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qobject.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qpainter.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qpainterpath.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qpen.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qpersistentmodelindex.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qpoint.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qpointf.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qpolygon.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qpolygonf.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qqmlapplicationengine.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qqmlengine.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qquaternion.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qquickstyle.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qrect.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qrectf.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qregion.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qset.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qsize.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qsizef.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qstring.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qstringlist.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qt.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qtime.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qtimezone.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qtlogging.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qtypes.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/quickcontrols
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/quickcontrols/qquickstyle.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qurl.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/quuid.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qvariant.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qvector.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qvector2d.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qvector3d.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/include/qvector4d.h
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qbytearray.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qcoreapplication.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qdate.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qhash/qhash_i32_qbytearray.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qhash/qhash_qstring_qvariant.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qline.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlinef.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_bool.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_f32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_f64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_i8.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_i16.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_i32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_i64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qbytearray.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qdate.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qline.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qlinef.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qmargins.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qmarginsf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qpersistentmodelindex.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qpoint.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qpointf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qrect.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qrectf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qsize.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qsizef.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qstring.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qtime.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qurl.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_quuid.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qvariant.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_u8.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_u16.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_u32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_u64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qmap/qmap_qstring_qvariant.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qmargins.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qmarginsf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qmodelindex.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qobject.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qpersistentmodelindex.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qpoint.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qpointf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qrect.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qrectf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_bool.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_f32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_f64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_i8.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_i16.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_i32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_i64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_qbytearray.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_qdate.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_qpersistentmodelindex.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_qstring.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_qtime.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_qurl.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_quuid.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_u8.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_u16.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_u32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_u64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qsize.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qsizef.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qstring.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qstringlist.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qt.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qtime.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qtlogging.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qtypes.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qurl.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/quuid.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/mod.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_bool.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_f32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_f64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_i8.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_i16.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_i32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_i64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qbytearray.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qdate.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qmodelindex.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qpersistentmodelindex.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qpoint.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qpointf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qrect.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qrectf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qsize.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qsizef.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qstring.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qstringlist.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qtime.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qurl.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_quuid.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_u8.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_u16.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_u32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_u64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_bool.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_f32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_f64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_i8.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_i16.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_i32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_i64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qbytearray.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qdate.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qline.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qlinef.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qmargins.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qmarginsf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qpersistentmodelindex.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qpoint.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qpointf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qrect.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qrectf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qsize.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qsizef.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qstring.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qtime.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qurl.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_quuid.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qvariant.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_u8.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_u16.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_u32.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_u64.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qanystringview.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qcolor.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qcolor.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qquaternion.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qvector2d.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qvector3d.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qvector4d.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qcolor.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qcolor.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qfont.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qguiapplication.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qimage.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qquaternion.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qpainterpath.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qpainter.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qpen.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qpolygon.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qpolygonf.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qregion.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qvector2d.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qvector3d.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/gui/qvector4d.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/qml/qqmlapplicationengine.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/qml/qqmlengine.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/quickcontrols/qquickstyle.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qdatetime.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qtimezone.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qlist/qlist_qdatetime.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qset/qset_qdatetime.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvariant/qvariant_qdatetime.rs
+cargo::rerun-if-changed=/home/wemite/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cxx-qt-lib-0.8.1/src/core/qvector/qvector_qdatetime.rs
+OUT_DIR = Some(/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out)
+OPT_LEVEL = Some(3)
+TARGET = Some(x86_64-unknown-linux-gnu)
+CARGO_ENCODED_RUSTFLAGS = Some()
+HOST = Some(x86_64-unknown-linux-gnu)
+cargo:rerun-if-env-changed=CXX_x86_64-unknown-linux-gnu
+CXX_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=CXX_x86_64_unknown_linux_gnu
+CXX_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_CXX
+HOST_CXX = None
+cargo:rerun-if-env-changed=CXX
+CXX = None
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+RUSTC_WRAPPER = None
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+DEBUG = Some(false)
+CARGO_CFG_TARGET_FEATURE = Some(fxsr,sse,sse2)
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+OUT_DIR = Some(/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-unknown-linux-gnu)
+CARGO_CFG_TARGET_FEATURE = Some(fxsr,sse,sse2)
+HOST = Some(x86_64-unknown-linux-gnu)
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+OUT_DIR = Some(/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-unknown-linux-gnu)
+CARGO_CFG_TARGET_FEATURE = Some(fxsr,sse,sse2)
+HOST = Some(x86_64-unknown-linux-gnu)
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+OUT_DIR = Some(/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-unknown-linux-gnu)
+CARGO_CFG_TARGET_FEATURE = Some(fxsr,sse,sse2)
+HOST = Some(x86_64-unknown-linux-gnu)
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+OUT_DIR = Some(/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-unknown-linux-gnu)
+CARGO_CFG_TARGET_FEATURE = Some(fxsr,sse,sse2)
+HOST = Some(x86_64-unknown-linux-gnu)
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=AR_x86_64-unknown-linux-gnu
+AR_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=AR_x86_64_unknown_linux_gnu
+AR_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_AR
+HOST_AR = None
+cargo:rerun-if-env-changed=AR
+AR = None
+cargo:rerun-if-env-changed=ARFLAGS
+ARFLAGS = None
+cargo:rerun-if-env-changed=HOST_ARFLAGS
+HOST_ARFLAGS = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64_unknown_linux_gnu
+ARFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64-unknown-linux-gnu
+ARFLAGS_x86_64-unknown-linux-gnu = None
+cargo:rustc-link-lib=static:+whole-archive=cxx-qt-call-init-crate_cxx_qt_lib
+cargo:rustc-link-search=native=/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out
+cargo:rerun-if-env-changed=CXXSTDLIB_x86_64-unknown-linux-gnu
+CXXSTDLIB_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=CXXSTDLIB_x86_64_unknown_linux_gnu
+CXXSTDLIB_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_CXXSTDLIB
+HOST_CXXSTDLIB = None
+cargo:rerun-if-env-changed=CXXSTDLIB
+CXXSTDLIB = None
+cargo:rustc-link-lib=stdc++
+OUT_DIR = Some(/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out)
+OPT_LEVEL = Some(3)
+TARGET = Some(x86_64-unknown-linux-gnu)
+CARGO_ENCODED_RUSTFLAGS = Some()
+HOST = Some(x86_64-unknown-linux-gnu)
+cargo:rerun-if-env-changed=CXX_x86_64-unknown-linux-gnu
+CXX_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=CXX_x86_64_unknown_linux_gnu
+CXX_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_CXX
+HOST_CXX = None
+cargo:rerun-if-env-changed=CXX
+CXX = None
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+RUSTC_WRAPPER = None
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+DEBUG = Some(false)
+CARGO_CFG_TARGET_FEATURE = Some(fxsr,sse,sse2)
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+OUT_DIR = Some(/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-unknown-linux-gnu)
+CARGO_CFG_TARGET_FEATURE = Some(fxsr,sse,sse2)
+HOST = Some(x86_64-unknown-linux-gnu)
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+OUT_DIR = Some(/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-unknown-linux-gnu)
+CARGO_CFG_TARGET_FEATURE = Some(fxsr,sse,sse2)
+HOST = Some(x86_64-unknown-linux-gnu)
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+OUT_DIR = Some(/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-unknown-linux-gnu)
+CARGO_CFG_TARGET_FEATURE = Some(fxsr,sse,sse2)
+HOST = Some(x86_64-unknown-linux-gnu)
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+OUT_DIR = Some(/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out)
+cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+TARGET = Some(x86_64-unknown-linux-gnu)
+CARGO_CFG_TARGET_FEATURE = Some(fxsr,sse,sse2)
+HOST = Some(x86_64-unknown-linux-gnu)
+cargo:rerun-if-env-changed=CXXFLAGS
+CXXFLAGS = None
+cargo:rerun-if-env-changed=HOST_CXXFLAGS
+HOST_CXXFLAGS = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64_unknown_linux_gnu
+CXXFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=CXXFLAGS_x86_64-unknown-linux-gnu
+CXXFLAGS_x86_64-unknown-linux-gnu = None
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+cargo:warning=/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out/cxxqtgen/src/gui/qimage.cxx.cpp: In function 'void cxxbridge1$194$QImage$mirror(QImage&, bool, bool)':
+cargo:warning=/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out/cxxqtgen/src/gui/qimage.cxx.cpp:697:54: warning: 'void QImage::mirror(bool, bool)' is deprecated: Use flip(Qt::Orientations) instead [-Wdeprecated-declarations]
+cargo:warning=  697 |   void (::QImage::*mirror$)(bool, bool) = &::QImage::mirror;
+cargo:warning=      |                                                      ^~~~~~
+cargo:warning=In file included from /usr/include/qt6/QtGui/QImage:1,
+cargo:warning=                 from /home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out/cxxqtbuild/include/cxx-qt-lib/gui/qimage.h:9,
+cargo:warning=                 from /home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out/cxxqtbuild/include/cxx-qt-lib/qimage.h:9,
+cargo:warning=                 from /home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out/cxxqtgen/src/gui/qimage.cxx.cpp:2:
+cargo:warning=/usr/include/qt6/QtGui/qimage.h:226:10: note: declared here
+cargo:warning=  226 |     void mirror(bool horizontally = false, bool vertically = true)
+cargo:warning=      |          ^~~~~~
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+cargo:rerun-if-env-changed=AR_x86_64-unknown-linux-gnu
+AR_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=AR_x86_64_unknown_linux_gnu
+AR_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_AR
+HOST_AR = None
+cargo:rerun-if-env-changed=AR
+AR = None
+cargo:rerun-if-env-changed=ARFLAGS
+ARFLAGS = None
+cargo:rerun-if-env-changed=HOST_ARFLAGS
+HOST_ARFLAGS = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64_unknown_linux_gnu
+ARFLAGS_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64-unknown-linux-gnu
+ARFLAGS_x86_64-unknown-linux-gnu = None
+cargo:rustc-link-lib=static=cxx-qt-lib-cxxqt-generated
+cargo:rustc-link-search=native=/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out
+cargo:rerun-if-env-changed=CXXSTDLIB_x86_64-unknown-linux-gnu
+CXXSTDLIB_x86_64-unknown-linux-gnu = None
+cargo:rerun-if-env-changed=CXXSTDLIB_x86_64_unknown_linux_gnu
+CXXSTDLIB_x86_64_unknown_linux_gnu = None
+cargo:rerun-if-env-changed=HOST_CXXSTDLIB
+HOST_CXXSTDLIB = None
+cargo:rerun-if-env-changed=CXXSTDLIB
+CXXSTDLIB = None
+cargo:rustc-link-lib=stdc++
+cargo::metadata=CXX_QT_MANIFEST_PATH=/home/wemite/smoothysearch/target/release/build/cxx-qt-lib-fd8fa758076dfced/out/cxxqtbuild/manifest.json

@@ -1,0 +1,134 @@
+{
+    "classes": [
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Foreign",
+                    "value": "::std::int8_t"
+                },
+                {
+                    "name": "QML.Using",
+                    "value": "qint8"
+                }
+            ],
+            "className": "QQmlCxxQtStdInt8TForeign",
+            "gadget": true,
+            "lineNumber": 32,
+            "qualifiedClassName": "QQmlCxxQtStdInt8TForeign"
+        },
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Foreign",
+                    "value": "::std::uint8_t"
+                },
+                {
+                    "name": "QML.Using",
+                    "value": "quint8"
+                }
+            ],
+            "className": "QQmlCxxQtStdUInt8TForeign",
+            "gadget": true,
+            "lineNumber": 40,
+            "qualifiedClassName": "QQmlCxxQtStdUInt8TForeign"
+        },
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Foreign",
+                    "value": "::std::int16_t"
+                },
+                {
+                    "name": "QML.Using",
+                    "value": "short"
+                }
+            ],
+            "className": "QQmlCxxQtStdInt16TForeign",
+            "gadget": true,
+            "lineNumber": 48,
+            "qualifiedClassName": "QQmlCxxQtStdInt16TForeign"
+        },
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Foreign",
+                    "value": "::std::uint16_t"
+                },
+                {
+                    "name": "QML.Using",
+                    "value": "ushort"
+                }
+            ],
+            "className": "QQmlCxxQtStdUInt16TForeign",
+            "gadget": true,
+            "lineNumber": 56,
+            "qualifiedClassName": "QQmlCxxQtStdUInt16TForeign"
+        },
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Foreign",
+                    "value": "::std::int32_t"
+                },
+                {
+                    "name": "QML.Using",
+                    "value": "int"
+                }
+            ],
+            "className": "QQmlCxxQtStdInt32TForeign",
+            "gadget": true,
+            "lineNumber": 64,
+            "qualifiedClassName": "QQmlCxxQtStdInt32TForeign"
+        },
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Foreign",
+                    "value": "::std::uint32_t"
+                },
+                {
+                    "name": "QML.Using",
+                    "value": "uint"
+                }
+            ],
+            "className": "QQmlCxxQtStdUInt32TForeign",
+            "gadget": true,
+            "lineNumber": 72,
+            "qualifiedClassName": "QQmlCxxQtStdUInt32TForeign"
+        },
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Foreign",
+                    "value": "::std::int64_t"
+                },
+                {
+                    "name": "QML.Using",
+                    "value": "qlonglong"
+                }
+            ],
+            "className": "QQmlCxxQtStdInt64TForeign",
+            "gadget": true,
+            "lineNumber": 80,
+            "qualifiedClassName": "QQmlCxxQtStdInt64TForeign"
+        },
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Foreign",
+                    "value": "::std::uint64_t"
+                },
+                {
+                    "name": "QML.Using",
+                    "value": "qulonglong"
+                }
+            ],
+            "className": "QQmlCxxQtStdUInt64TForeign",
+            "gadget": true,
+            "lineNumber": 88,
+            "qualifiedClassName": "QQmlCxxQtStdUInt64TForeign"
+        }
+    ],
+    "inputFile": "builtins.h",
+    "outputRevision": 69
+}

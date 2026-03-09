@@ -1,0 +1,14 @@
+/target
+/pkg
+/srcpkg
+/*.pkg.tar.zst
+/*.tar.gz
+
+.DS_Store
+*.swp
+*.swo
+
+.idea/
+.vscode/
+
+**/.directory
