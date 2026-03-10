@@ -1,0 +1,299 @@
+{
+    "classes": [
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Element",
+                    "value": "Backend"
+                }
+            ],
+            "className": "Backend",
+            "lineNumber": 89,
+            "methods": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "value",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 12,
+                    "lineNumber": 126,
+                    "name": "set_query",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 13,
+                    "lineNumber": 127,
+                    "name": "move_down",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 14,
+                    "lineNumber": 128,
+                    "name": "move_up",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "::std::int32_t"
+                        }
+                    ],
+                    "index": 15,
+                    "lineNumber": 129,
+                    "name": "select_index",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 16,
+                    "lineNumber": 130,
+                    "name": "launch_current",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "lineNumber": 93,
+                    "name": "current_text",
+                    "notify": "current_textChanged",
+                    "read": "getCurrent_text",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "write": "setCurrent_text"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "lineNumber": 95,
+                    "name": "items",
+                    "notify": "itemsChanged",
+                    "read": "getItems",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QStringList",
+                    "user": false,
+                    "write": "setItems"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "lineNumber": 96,
+                    "name": "icon_paths",
+                    "notify": "icon_pathsChanged",
+                    "read": "getIcon_paths",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QStringList",
+                    "user": false,
+                    "write": "setIcon_paths"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 3,
+                    "lineNumber": 98,
+                    "name": "current_index",
+                    "notify": "current_indexChanged",
+                    "read": "getCurrent_index",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "::std::int32_t",
+                    "user": false,
+                    "write": "setCurrent_index"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 4,
+                    "lineNumber": 100,
+                    "name": "show_command_hint",
+                    "notify": "show_command_hintChanged",
+                    "read": "getShow_command_hint",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "write": "setShow_command_hint"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 5,
+                    "lineNumber": 102,
+                    "name": "command_preview",
+                    "notify": "command_previewChanged",
+                    "read": "getCommand_preview",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "write": "setCommand_preview"
+                }
+            ],
+            "qualifiedClassName": "Backend",
+            "signals": [
+                {
+                    "access": "public",
+                    "index": 0,
+                    "lineNumber": 120,
+                    "name": "current_textChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 1,
+                    "lineNumber": 121,
+                    "name": "itemsChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 2,
+                    "lineNumber": 122,
+                    "name": "icon_pathsChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 3,
+                    "lineNumber": 123,
+                    "name": "current_indexChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 4,
+                    "lineNumber": 124,
+                    "name": "show_command_hintChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 5,
+                    "lineNumber": 125,
+                    "name": "command_previewChanged",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "value",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 6,
+                    "lineNumber": 109,
+                    "name": "setCurrent_text",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "value",
+                            "type": "QStringList"
+                        }
+                    ],
+                    "index": 7,
+                    "lineNumber": 111,
+                    "name": "setItems",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "value",
+                            "type": "QStringList"
+                        }
+                    ],
+                    "index": 8,
+                    "lineNumber": 113,
+                    "name": "setIcon_paths",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "value",
+                            "type": "::std::int32_t"
+                        }
+                    ],
+                    "index": 9,
+                    "lineNumber": 115,
+                    "name": "setCurrent_index",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "value",
+                            "type": "bool"
+                        }
+                    ],
+                    "index": 10,
+                    "lineNumber": 117,
+                    "name": "setShow_command_hint",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "value",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 11,
+                    "lineNumber": 119,
+                    "name": "setCommand_preview",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                },
+                {
+                    "access": "private",
+                    "name": "::rust::cxxqt1::CxxQtType<BackendRust>"
+                }
+            ]
+        }
+    ],
+    "inputFile": "backend.cxxqt.h",
+    "outputRevision": 69
+}

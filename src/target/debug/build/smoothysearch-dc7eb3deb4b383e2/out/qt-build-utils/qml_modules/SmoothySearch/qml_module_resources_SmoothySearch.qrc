@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/qt/qml/SmoothySearch">/home/wemite/smoothysearch/target/debug/build/smoothysearch-dc7eb3deb4b383e2/out/qt-build-utils/qml_modules/SmoothySearch</file>
+  </qresource>
+  <qresource prefix="/qt/qml/SmoothySearch">
+    <file alias="qmldir">/home/wemite/smoothysearch/target/debug/build/smoothysearch-dc7eb3deb4b383e2/out/qt-build-utils/qml_modules/SmoothySearch/qmldir</file>
+    <file alias="qml/Main.qml">/home/wemite/smoothysearch/qml/Main.qml</file>
+  </qresource>
+</RCC>

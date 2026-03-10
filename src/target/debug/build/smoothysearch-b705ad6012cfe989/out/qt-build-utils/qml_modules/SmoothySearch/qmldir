@@ -1,0 +1,6 @@
+module SmoothySearch
+optional plugin SmoothySearch
+classname SmoothySearch_plugin
+typeinfo plugin.qmltypes
+prefer :/qt/qml/SmoothySearch/
+Main 1.0 qml/Main.qml

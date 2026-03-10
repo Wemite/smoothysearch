@@ -1,0 +1,21 @@
+{
+  "name": "cxx-qt-lib",
+  "link_name": "cxx-qt-lib",
+  "qt_modules": [
+    "QuickControls2",
+    "Core",
+    "Gui",
+    "Qml"
+  ],
+  "initializers": [
+    {
+      "file": null,
+      "init_call": "cxx_qt_init_crate_cxx_qt_lib();",
+      "init_declaration": "extern \"C\" bool cxx_qt_init_crate_cxx_qt_lib();"
+    }
+  ],
+  "exported_include_prefixes": [
+    "cxx-qt-lib",
+    "cxx-qt"
+  ]
+}
