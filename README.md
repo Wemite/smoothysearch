@@ -38,4 +38,4 @@ then install:
 
 ## Guide
 
-Read the Theming PDF guide: [SmoothySearch PDF Guide](./docs/Guide_SmoothSearch.pdf)
+[![Guide](https://img.shields.io/badge/Guide-PDF-red?style=for-the-badge&logo=adobeacrobatreader)](docs/Guide_SmoothSearch.pdf)
