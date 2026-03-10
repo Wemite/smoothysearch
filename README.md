@@ -7,7 +7,7 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML**.
 ## Preview
 
 <p align="center">
-  <img src="./docs/demo.gif" width="700">
+  <img src="./assets/demo.gif" width="480">
 </p>
 
 ---
