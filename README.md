@@ -31,7 +31,7 @@ then install:
 `sudo pacman -U smoothysearch-0.1.0-1-x86_64.pkg.tar.zst`
 
 ---
-Make sure the package name matches the version you downloaded.
+**Make sure the package name matches the version you downloaded.**
 
 ## Run
 
