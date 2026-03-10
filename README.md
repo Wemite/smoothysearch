@@ -27,7 +27,9 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML**.
 [![Download](https://img.shields.io/badge/Download-latest%20release-blue?style=for-the-badge)](https://github.com/Wemite/smoothysearch/releases/latest)
 ---
 then install:
+
 `sudo pacman -U smoothysearch-0.1.0-1-x86_64.pkg.tar.zst`
+
 ---
 Always check the package name against the latest version you downloaded!
 
