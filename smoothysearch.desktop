@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=SmoothySearch
-Comment=Really smooth experience!
-Exec=smoothysearch
-Icon=smoothysearch
-Terminal=false
-Categories=Utility;
-StartupNotify=false
