@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=SmoothySearch Themer
-Comment=Choose SmoothySearch theme
-Exec=smoothysearch --themes
-Icon=smoothysearch
-Terminal=false
-Categories=Settings;Utility;
-StartupNotify=false
