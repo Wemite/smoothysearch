@@ -12,8 +12,6 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML**.
 
 ---
 
-> Clean and smooth launcher experience.
-
 ## Features
 
 - Fast application search
