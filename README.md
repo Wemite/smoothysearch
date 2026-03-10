@@ -37,6 +37,7 @@ Always check the package name against the latest version you downloaded!
 
 **Launcher:** `smoothysearch`
 **Theme Switcher:** `smoothysearch --themes`
+**I recommend** creating a `Meta+Space` shortcut to run the `smoothysearch` command.
 
 ---
 
