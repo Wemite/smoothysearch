@@ -22,9 +22,13 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML**.
 
 ---
 
+## Installation
+
+`smoothysearch`
+
 ## Run
 
-**Launcher:** `smoothysearch`  
+**Launcher:** `smoothysearch`
 **Theme Switcher:** `smoothysearch --themes`
 
 ---
