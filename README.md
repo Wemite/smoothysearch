@@ -24,7 +24,7 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML**.
 
 ## Installation (Arch Linux)
 
-1. > [![Download](https://img.shields.io/badge/Download-latest%20release-blue?style=for-the-badge)](https://github.com/Wemite/smoothysearch/releases/latest) <
+1. Make sure to [![Download](https://img.shields.io/badge/Download-latest%20release-blue?style=for-the-badge)](https://github.com/Wemite/smoothysearch/releases/latest)
 2. Open a terminal in the folder where the package was downloaded.
 3. Install the package:
 
