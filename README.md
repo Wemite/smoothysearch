@@ -39,4 +39,4 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML**.
 
 ## Guide (Must read)
 
-[![Guide](https://img.shields.io/badge/Guide-PDF-red?style=for-the-badge&logo=adobeacrobatreader)](docs/Guide_SmoothSearch.pdf)
+[![Guide](https://img.shields.io/badge/Guide-PDF-red?style=for-the-badge&logo=adobeacrobatreader)](assets/UserGuide.pdf)
