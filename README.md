@@ -14,11 +14,11 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML**.
 
 ## Features
 
-- Fast application search
+- Fuzzy search
 - Quick commands
 - Smooth animations
-- 14 built-in color presets + 2 examples (My Theme Light/Dark)
-- Custom user themes via `themes.toml`
+- 14 built-in color presets + 1 example (Noir theme)
+- Custom user themes and customizable corner rounding
 
 ---
 
@@ -27,10 +27,11 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML**.
 [![Download](https://img.shields.io/badge/Download-latest%20release-blue?style=for-the-badge)](https://github.com/Wemite/smoothysearch/releases/latest)
 
 2. Open a terminal in the folder where the package was downloaded.
-3. Install the package: `sudo pacman -U PACKAGENAME.pkg.tar.zst`
+3. Install the package: `sudo pacman -U smoothysearch-*.pkg.tar.zst`
+
 
 ---
-**Make sure the package name matches the version you downloaded.**
+**Ensure you have downloaded the latest version.**
 
 ## Run
 
@@ -38,10 +39,8 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML**.
 **Theme Switcher:** `smoothysearch --themes`
 
 ---
-**I recommend** creating a `Meta+Space` shortcut to run the `smoothysearch` command.
 
----
 
-## Guide
+## Guide (Must read)
 
 [![Guide](https://img.shields.io/badge/Guide-PDF-red?style=for-the-badge&logo=adobeacrobatreader)](docs/Guide_SmoothSearch.pdf)
