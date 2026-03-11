@@ -1,6 +1,6 @@
 # SmoothySearch
 
-A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML**.
+A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML** for Wayland.
 
 ---
 
