@@ -136,7 +136,17 @@ pub fn load_config() -> AppConfig {
     };
 
     let mut cfg = match fs::read_to_string(&path) {
-        Ok(text) => toml::from_str::<AppConfig>(&text).unwrap_or_default(),
+        Ok(text) => match toml::from_str::<AppConfig>(&text) {
+            Ok(cfg) => cfg,
+            Err(e) => {
+                eprintln!("[smoothysearch] config parse error: {e}, using defaults");
+                AppConfig::default()
+            }
+        },
+        Err(e) if e.kind() != std::io::ErrorKind::NotFound => {
+            eprintln!("[smoothysearch] config read error: {e}, using defaults");
+            AppConfig::default()
+        }
         Err(_) => AppConfig::default(),
     };
 

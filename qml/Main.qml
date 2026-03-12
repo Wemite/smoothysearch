@@ -21,6 +21,9 @@ ApplicationWindow {
     readonly property int buttonRadius: Math.max(8, Math.round(panelRadius * 0.5))
     readonly property int editorInnerRadius: Math.max(10, panelRadius)
 
+    // One "step" of mouse wheel scroll in Qt's angle-delta units (15 degrees * 8 = 120)
+    readonly property int wheelStepAngle: 120
+
     width: collapsedWidth + editorWidth + (editorWidth > 0 ? paneGap : 0)
     height: baseHeight
     visible: !backend.resident_mode
@@ -285,14 +288,14 @@ ApplicationWindow {
                                 onWheel: function(wheel) {
                                     wheelAccumulator += wheel.angleDelta.y
 
-                                    while (wheelAccumulator <= -120) {
+                                    while (wheelAccumulator <= -win.wheelStepAngle) {
                                         backend.move_down()
-                                        wheelAccumulator += 120
+                                        wheelAccumulator += win.wheelStepAngle
                                     }
 
-                                    while (wheelAccumulator >= 120) {
+                                    while (wheelAccumulator >= win.wheelStepAngle) {
                                         backend.move_up()
-                                        wheelAccumulator -= 120
+                                        wheelAccumulator -= win.wheelStepAngle
                                     }
 
                                     wheel.accepted = true
