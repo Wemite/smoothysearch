@@ -1,14 +1,22 @@
-/target
-/pkg
-/srcpkg
-/*.pkg.tar.zst
-/*.tar.gz
+# Rust
+/target/
 
-.DS_Store
-*.swp
-*.swo
+# Package/build artifacts
+/pkg/
+*.pkg.tar.zst
+*.pkg.tar.xz
+*.pkg.tar.gz
 
-.idea/
+# Temporary files
+*.log
+*.tmp
+*.bak
+*~
+
+# Editors / IDE
 .vscode/
+.idea/
 
-**/.directory
+# OS junk
+.DS_Store
+Thumbs.db

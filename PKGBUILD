@@ -1,5 +1,5 @@
 pkgname=smoothysearch
-pkgver=0.1.0
+pkgver=0.2
 pkgrel=1
 pkgdesc="Minimal launcher for Linux built with Rust and Qt/QML"
 arch=('x86_64')
@@ -21,9 +21,13 @@ conflicts=('smoothysearch')
 source=(
   'smoothysearch.desktop'
   'smoothysearch-themer.desktop'
+  'smoothysearch-service.desktop'
   'smoothysearch.png'
 )
+
 sha256sums=('SKIP' 'SKIP' 'SKIP')
+
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
 
 build() {
   cd "$startdir"
@@ -45,4 +49,10 @@ package() {
 
   install -Dm644 "smoothysearch.png" \
     "$pkgdir/usr/share/icons/hicolor/256x256/apps/smoothysearch.png"
+
+  install -Dm644 "smoothysearch-service.desktop" \
+    "$pkgdir/etc/xdg/autostart/smoothysearch-service.desktop"
+
+  install -Dm644 "LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

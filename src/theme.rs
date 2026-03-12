@@ -79,26 +79,15 @@ pub fn ensure_sample_themes_file_exists() {
     }
 
     let sample = r##"[[theme]]
-    id = "my_theme_dark"
-    name = "My Theme Dark"
-    window_bg = "#1e1e2e"
-    border = "#313244"
-    input_bg = "#313244"
-    text = "#cdd6f4"
-    text_dim = "#a6adc8"
-    highlight = "#a970ff"
-    highlight_text = "#11111b"
-
-    [[theme]]
-    id = "my_theme_light"
-    name = "My Theme Light"
-    window_bg = "#f3e8ff"
-    border = "#d9c4ff"
-    input_bg = "#e6d5ff"
-    text = "#2b1a44"
-    text_dim = "#6a4f9c"
-    highlight = "#a970ff"
-    highlight_text = "#ffffff"
+    id = "my_theme_noir"
+    name = "Noir (Example)"
+    window_bg = "#252525"
+    border = "#303030"
+    input_bg = "#404040"
+    text = "#ffffff"
+    text_dim = "#909090"
+    highlight = "#909090"
+    highlight_text = "#000000"
     "##;
 
     let _ = fs::write(path, sample);
@@ -117,17 +106,7 @@ pub fn load_custom_themes() -> Vec<CustomThemePreset> {
     .map(|f| {
         f.themes
         .into_iter()
-        .filter(|t| {
-            !t.id.trim().is_empty()
-            && !t.name.trim().is_empty()
-            && !t.window_bg.trim().is_empty()
-            && !t.border.trim().is_empty()
-            && !t.input_bg.trim().is_empty()
-            && !t.text.trim().is_empty()
-            && !t.text_dim.trim().is_empty()
-            && !t.highlight.trim().is_empty()
-            && !t.highlight_text.trim().is_empty()
-        })
+        .filter(|t| !t.id.trim().is_empty() && !t.name.trim().is_empty())
         .collect()
     })
     .unwrap_or_default()
@@ -147,6 +126,49 @@ fn custom_theme_to_preset(theme: &CustomThemePreset) -> ThemePreset {
     }
 }
 
+fn is_valid_hex_color(value: &str) -> bool {
+    let s = value.trim();
+
+    let Some(hex) = s.strip_prefix('#') else {
+        return false;
+    };
+
+    matches!(hex.len(), 6 | 8) && hex.chars().all(|c| c.is_ascii_hexdigit())
+}
+
+fn sanitize_color(value: &str, fallback: &str) -> String {
+    if is_valid_hex_color(value) {
+        value.trim().to_string()
+    } else {
+        fallback.to_string()
+    }
+}
+
+fn fallback_theme_id_for(theme_id: &str) -> &'static str {
+    if theme_id.ends_with("_light") {
+        "graphite_light"
+    } else {
+        "graphite_dark"
+    }
+}
+
+fn sanitize_theme(theme_id: &str, theme: ThemePreset) -> ThemePreset {
+    let fallback =
+    built_in_theme(fallback_theme_id_for(theme_id)).expect("fallback theme must exist");
+
+    ThemePreset {
+        id: theme.id,
+        name: theme.name,
+        window_bg: sanitize_color(&theme.window_bg, &fallback.window_bg),
+        border: sanitize_color(&theme.border, &fallback.border),
+        input_bg: sanitize_color(&theme.input_bg, &fallback.input_bg),
+        text: sanitize_color(&theme.text, &fallback.text),
+        text_dim: sanitize_color(&theme.text_dim, &fallback.text_dim),
+        highlight: sanitize_color(&theme.highlight, &fallback.highlight),
+        highlight_text: sanitize_color(&theme.highlight_text, &fallback.highlight_text),
+    }
+}
+
 fn built_in_theme(id: &str) -> Option<ThemePreset> {
     let preset = match id {
         "violet_dark" => ThemePreset {
@@ -158,7 +180,7 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
             text: "#cdd6f4".to_string(),
             text_dim: "#a6adc8".to_string(),
             highlight: "#a970ff".to_string(),
-            highlight_text: "#11111b".to_string(),
+            highlight_text: "#000000".to_string(),
         },
 
         "rose_dark" => ThemePreset {
@@ -170,7 +192,7 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
             text: "#f2d9e6".to_string(),
             text_dim: "#c9a9bb".to_string(),
             highlight: "#ff79c6".to_string(),
-            highlight_text: "#1a1018".to_string(),
+            highlight_text: "#000000".to_string(),
         },
 
         "blue_dark" => ThemePreset {
@@ -182,7 +204,7 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
             text: "#d6e0ff".to_string(),
             text_dim: "#9aa6c8".to_string(),
             highlight: "#6aa9ff".to_string(),
-            highlight_text: "#111521".to_string(),
+            highlight_text: "#000000".to_string(),
         },
 
         "green_dark" => ThemePreset {
@@ -194,7 +216,7 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
             text: "#d9f2e4".to_string(),
             text_dim: "#9ec8b3".to_string(),
             highlight: "#6ee7a2".to_string(),
-            highlight_text: "#0f1a15".to_string(),
+            highlight_text: "#11111b".to_string(),
         },
 
         "yellow_dark" => ThemePreset {
@@ -206,7 +228,7 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
             text: "#f2e9c9".to_string(),
             text_dim: "#c8b88e".to_string(),
             highlight: "#ffd166".to_string(),
-            highlight_text: "#1a1508".to_string(),
+            highlight_text: "#11111b".to_string(),
         },
 
         "red_dark" => ThemePreset {
@@ -218,7 +240,7 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
             text: "#f2d6d8".to_string(),
             text_dim: "#c89a9e".to_string(),
             highlight: "#ff6b6b".to_string(),
-            highlight_text: "#1a0c0e".to_string(),
+            highlight_text: "#11111b".to_string(),
         },
 
         "graphite_dark" => ThemePreset {
@@ -254,7 +276,7 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
             text: "#3a1f2e".to_string(),
             text_dim: "#7c5a6a".to_string(),
             highlight: "#ff79c6".to_string(),
-            highlight_text: "#ffffff".to_string(),
+            highlight_text: "#2e3440".to_string(),
         },
 
         "blue_light" => ThemePreset {
@@ -278,7 +300,7 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
             text: "#1d3b2f".to_string(),
             text_dim: "#4e7c69".to_string(),
             highlight: "#34d399".to_string(),
-            highlight_text: "#ffffff".to_string(),
+            highlight_text: "#2e3440".to_string(),
         },
 
         "yellow_light" => ThemePreset {
@@ -290,7 +312,7 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
             text: "#3b3213".to_string(),
             text_dim: "#7a6a2e".to_string(),
             highlight: "#ffc857".to_string(),
-            highlight_text: "#ffffff".to_string(),
+            highlight_text: "#2e3440".to_string(),
         },
 
         "red_light" => ThemePreset {
@@ -302,7 +324,7 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
             text: "#3d1c20".to_string(),
             text_dim: "#7f4a50".to_string(),
             highlight: "#ff5d5d".to_string(),
-            highlight_text: "#ffffff".to_string(),
+            highlight_text: "#2e3440".to_string(),
         },
 
         "graphite_light" => ThemePreset {
@@ -352,10 +374,10 @@ pub fn theme_display_name(id: &str) -> String {
 
 pub fn get_theme_preset(id: &str) -> ThemePreset {
     if let Some(custom) = load_custom_themes().into_iter().find(|t| t.id == id) {
-        return custom_theme_to_preset(&custom);
+        let preset = custom_theme_to_preset(&custom);
+        return sanitize_theme(id, preset);
     }
 
-    built_in_theme(id).unwrap_or_else(|| {
-        built_in_theme("violet_dark").expect("built-in violet_dark theme must exist")
-    })
+    built_in_theme(id)
+    .unwrap_or_else(|| built_in_theme("violet_dark").expect("built-in violet_dark theme must exist"))
 }

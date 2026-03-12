@@ -1,9 +1,0 @@
-#pragma once
-#include "cxx-qt-lib/qmargins.h"
-#include "cxx-qt-lib/qpoint.h"
-#include "cxx-qt-lib/qrect.h"
-#include "cxx-qt-lib/qsize.h"
-#include "cxx-qt-lib/qstring.h"
-#include "cxx-qt-lib/qrectf.h"
-#include "cxx-qt-lib/common.h"
-#include <cstdint>
