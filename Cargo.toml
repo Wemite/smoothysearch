@@ -12,6 +12,7 @@ serde_json = "1"
 toml = "0.8"
 dirs = "5"
 fuzzy-matcher = "0.3"
+notify = "6"
 
 [build-dependencies]
 cxx-qt-build = { version = "0.8", features = ["link_qt_object_files"] }
