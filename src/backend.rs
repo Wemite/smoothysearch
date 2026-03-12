@@ -165,6 +165,10 @@ pub struct BackendRust {
 
 static RESIDENT_LOCK: OnceLock<std::os::unix::net::UnixListener> = OnceLock::new();
 
+const SERVICE_KILL_RETRIES: u32 = 20;
+const SERVICE_START_RETRIES: u32 = 40;
+const SERVICE_RETRY_DELAY_MS: u64 = 50;
+
 impl BackendRust {
     fn preview_colors_to_qstringlist(entries: &[EntryItem]) -> QStringList {
         let mut list = QStringList::default();
@@ -567,7 +571,13 @@ impl BackendRust {
     fn read_cache() -> Option<CacheData> {
         let path = Self::cache_file();
         let content = fs::read_to_string(path).ok()?;
-        serde_json::from_str(&content).ok()
+        match serde_json::from_str(&content) {
+            Ok(cache) => Some(cache),
+            Err(e) => {
+                eprintln!("[smoothysearch] app cache parse error: {e}, will rebuild");
+                None
+            }
+        }
     }
 
     fn write_cache(signatures: Vec<FileSignature>, apps: &[AppItem]) {
@@ -808,23 +818,77 @@ impl BackendRust {
         (items, icon_paths, preview_colors, current_index)
     }
 
+    /// Parse an XDG desktop entry Exec string into an argv vector.
+    /// Handles double-quoted arguments and backslash escapes within quotes.
+    /// Does NOT invoke a shell — avoids command injection via malicious .desktop files.
+    fn parse_exec_args(exec: &str) -> Vec<String> {
+        let mut args: Vec<String> = Vec::new();
+        let mut current = String::new();
+        let mut in_double_quotes = false;
+        let mut chars = exec.chars().peekable();
+
+        while let Some(ch) = chars.next() {
+            match ch {
+                '"' => in_double_quotes = !in_double_quotes,
+                '\\' if in_double_quotes => {
+                    if let Some(next) = chars.next() {
+                        match next {
+                            '"' | '\\' | '`' | '$' => current.push(next),
+                            _ => {
+                                current.push('\\');
+                                current.push(next);
+                            }
+                        }
+                    }
+                }
+                ' ' | '\t' if !in_double_quotes => {
+                    if !current.is_empty() {
+                        args.push(std::mem::take(&mut current));
+                    }
+                }
+                _ => current.push(ch),
+            }
+        }
+
+        if !current.is_empty() {
+            args.push(current);
+        }
+
+        args
+    }
+
     fn run_shell(command: &str) {
         let home = Self::home_dir();
+        let args = Self::parse_exec_args(command);
 
-        let _ = Command::new("bash")
-        .current_dir(&home)
-        .args(["-lc", command])
-        .spawn();
+        if args.is_empty() {
+            eprintln!("[smoothysearch] run_shell: empty exec after parsing: {command:?}");
+            return;
+        }
+
+        let _ = Command::new(&args[0])
+            .current_dir(&home)
+            .args(&args[1..])
+            .spawn();
     }
 
     fn run_in_terminal(command: &str) {
         let home = Self::home_dir();
-        let wrapped = format!(r#"{command}; exec bash"#);
+        let args = Self::parse_exec_args(command);
 
+        if args.is_empty() {
+            eprintln!("[smoothysearch] run_in_terminal: empty exec after parsing: {command:?}");
+            return;
+        }
+
+        // --hold keeps the konsole window open after the command exits,
+        // replacing the previous `; exec bash` shell workaround.
         let _ = Command::new("konsole")
-        .current_dir(&home)
-        .args(["-e", "bash", "-lc", wrapped.as_str()])
-        .spawn();
+            .current_dir(&home)
+            .arg("--hold")
+            .arg("-e")
+            .args(&args)
+            .spawn();
     }
 }
 
@@ -875,11 +939,11 @@ pub fn ensure_resident_service_running() {
                 .stderr(Stdio::null())
                 .spawn();
 
-            for _ in 0..20 {
+            for _ in 0..SERVICE_KILL_RETRIES {
                 if !resident_service_running() {
                     break;
                 }
-                thread::sleep(Duration::from_millis(50));
+                thread::sleep(Duration::from_millis(SERVICE_RETRY_DELAY_MS));
             }
         } else {
             return;
@@ -897,12 +961,14 @@ pub fn ensure_resident_service_running() {
         .stderr(Stdio::null())
         .spawn();
 
-    for _ in 0..40 {
+    for _ in 0..SERVICE_START_RETRIES {
         if resident_service_running() {
             return;
         }
-        thread::sleep(Duration::from_millis(50));
+        thread::sleep(Duration::from_millis(SERVICE_RETRY_DELAY_MS));
     }
+
+    eprintln!("[smoothysearch] service did not become ready after {}ms", SERVICE_START_RETRIES as u64 * SERVICE_RETRY_DELAY_MS);
 }
 
 pub fn request_resident_show() {
