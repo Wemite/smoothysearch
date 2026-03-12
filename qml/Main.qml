@@ -538,14 +538,6 @@ ApplicationWindow {
                         height: 28
                         spacing: 8
 
-                        Text {
-                            text: "themes.toml"
-                            color: backend.theme_text
-                            font.pixelSize: 16
-                            font.bold: true
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-
                         Item {
                             Layout.fillWidth: true
                         }

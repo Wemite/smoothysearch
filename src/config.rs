@@ -84,7 +84,7 @@ fn default_window_height() -> i32 {
 }
 
 fn default_editor_width() -> i32 {
-    840
+    820
 }
 
 fn default_window_radius() -> i32 {
@@ -170,7 +170,7 @@ pub fn ensure_default_config_exists() {
     [window]
     width = 480
     height = 360
-    editor_width = 840
+    editor_width = 820
 
     [ui]
     window_radius = 24
