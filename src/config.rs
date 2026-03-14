@@ -11,6 +11,27 @@ pub struct AppConfig {
 
     #[serde(default)]
     pub ui: UiConfig,
+
+    #[serde(default)]
+    pub search: SearchConfig,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct SearchConfig {
+    #[serde(default = "default_search_url_template")]
+    pub url_template: String,
+}
+
+impl Default for SearchConfig {
+    fn default() -> Self {
+        Self {
+            url_template: default_search_url_template(),
+        }
+    }
+}
+
+fn default_search_url_template() -> String {
+    "https://duckduckgo.com/".to_string()
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -186,6 +207,9 @@ pub fn ensure_default_config_exists() {
     window_radius = 24
     search_bar_radius = 16
     selector_radius = 6
+
+    [search]
+    url_template = "https://duckduckgo.com/"
     "#;
 
     let _ = fs::write(path, default_text);
@@ -208,18 +232,20 @@ pub fn save_theme_preset(preset: &str) -> std::io::Result<()> {
         },
         window: existing.window,
         ui: existing.ui,
+        search: existing.search,
     };
 
     let text = toml::to_string(&cfg).unwrap_or_else(|_| {
         format!(
-            "[theme]\npreset = \"{}\"\n\n[window]\nwidth = {}\nheight = {}\neditor_width = {}\n\n[ui]\nwindow_radius = {}\nsearch_bar_radius = {}\nselector_radius = {}\n",
+            "[theme]\npreset = \"{}\"\n\n[window]\nwidth = {}\nheight = {}\neditor_width = {}\n\n[ui]\nwindow_radius = {}\nsearch_bar_radius = {}\nselector_radius = {}\n\n[search]\nurl_template = \"{}\"\n",
             preset,
             cfg.window.width,
             cfg.window.height,
             cfg.window.editor_width,
             cfg.ui.window_radius,
             cfg.ui.search_bar_radius,
-            cfg.ui.selector_radius
+            cfg.ui.selector_radius,
+            cfg.search.url_template
         )
     });
 

@@ -103,13 +103,13 @@ pub fn load_custom_themes() -> Vec<CustomThemePreset> {
     };
 
     toml::from_str::<CustomThemesFile>(&text)
-    .map(|f| {
-        f.themes
-        .into_iter()
-        .filter(|t| !t.id.trim().is_empty() && !t.name.trim().is_empty())
-        .collect()
-    })
-    .unwrap_or_default()
+        .map(|f| {
+            f.themes
+                .into_iter()
+                .filter(|t| !t.id.trim().is_empty() && !t.name.trim().is_empty())
+                .collect()
+        })
+        .unwrap_or_default()
 }
 
 fn custom_theme_to_preset(theme: &CustomThemePreset) -> ThemePreset {
@@ -154,7 +154,7 @@ fn fallback_theme_id_for(theme_id: &str) -> &'static str {
 
 fn sanitize_theme(theme_id: &str, theme: ThemePreset) -> ThemePreset {
     let fallback =
-    built_in_theme(fallback_theme_id_for(theme_id)).expect("fallback theme must exist");
+        built_in_theme(fallback_theme_id_for(theme_id)).expect("fallback theme must exist");
 
     ThemePreset {
         id: theme.id,
@@ -347,9 +347,9 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
 
 pub fn all_theme_ids() -> Vec<String> {
     let mut ids: Vec<String> = built_in_theme_ids()
-    .into_iter()
-    .map(|s| s.to_string())
-    .collect();
+        .into_iter()
+        .map(|s| s.to_string())
+        .collect();
 
     for custom in load_custom_themes() {
         if let Some(pos) = ids.iter().position(|id| id == &custom.id) {
@@ -368,8 +368,8 @@ pub fn theme_display_name(id: &str) -> String {
     }
 
     built_in_theme(id)
-    .map(|t| t.name)
-    .unwrap_or_else(|| "Violet Dark".to_string())
+        .map(|t| t.name)
+        .unwrap_or_else(|| "Violet Dark".to_string())
 }
 
 pub fn get_theme_preset(id: &str) -> ThemePreset {
@@ -378,6 +378,7 @@ pub fn get_theme_preset(id: &str) -> ThemePreset {
         return sanitize_theme(id, preset);
     }
 
-    built_in_theme(id)
-    .unwrap_or_else(|| built_in_theme("violet_dark").expect("built-in violet_dark theme must exist"))
+    built_in_theme(id).unwrap_or_else(|| {
+        built_in_theme("violet_dark").expect("built-in violet_dark theme must exist")
+    })
 }

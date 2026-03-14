@@ -13,18 +13,17 @@ fn watch_config_for_restart() {
         let config_path = format!("{}/.config/smoothysearch/config.toml", home);
         let config_path_buf = std::path::PathBuf::from(&config_path);
         let watch_dir = config_path_buf
-        .parent()
-        .map(|p| p.to_path_buf())
-        .unwrap_or_else(|| std::path::PathBuf::from(format!("{}/.config/smoothysearch", home)));
+            .parent()
+            .map(|p| p.to_path_buf())
+            .unwrap_or_else(|| std::path::PathBuf::from(format!("{}/.config/smoothysearch", home)));
 
         let (tx, rx) = channel();
 
-        let mut watcher =
-        RecommendedWatcher::new(tx, notify::Config::default()).unwrap();
+        let mut watcher = RecommendedWatcher::new(tx, notify::Config::default()).unwrap();
 
         watcher
-        .watch(&watch_dir, RecursiveMode::NonRecursive)
-        .unwrap();
+            .watch(&watch_dir, RecursiveMode::NonRecursive)
+            .unwrap();
 
         for res in rx {
             if let Ok(event) = res {
@@ -46,15 +45,45 @@ fn watch_config_for_restart() {
                             let cmd = format!("sleep 0.2; '{}' --service", exe_str);
 
                             let _ = std::process::Command::new("sh")
-                            .arg("-c")
-                            .arg(cmd)
-                            .stdin(std::process::Stdio::null())
-                            .stdout(std::process::Stdio::null())
-                            .stderr(std::process::Stdio::null())
-                            .spawn();
+                                .arg("-c")
+                                .arg(cmd)
+                                .stdin(std::process::Stdio::null())
+                                .stdout(std::process::Stdio::null())
+                                .stderr(std::process::Stdio::null())
+                                .spawn();
                         }
 
                         std::process::exit(0);
+                    }
+                    _ => {}
+                }
+            }
+        }
+    });
+}
+
+fn watch_app_dirs_invalidate_cache() {
+    thread::spawn(|| {
+        let (tx, rx) = channel();
+        let mut watcher = match RecommendedWatcher::new(tx, notify::Config::default()) {
+            Ok(w) => w,
+            Err(_) => return,
+        };
+
+        for dir in backend::app_dirs_for_watch() {
+            if dir.is_dir() {
+                let _ = watcher.watch(&dir, RecursiveMode::NonRecursive);
+            }
+        }
+
+        for res in rx {
+            if let Ok(event) = res {
+                match event.kind {
+                    EventKind::Create(_)
+                    | EventKind::Remove(_)
+                    | EventKind::Modify(_)
+                    | EventKind::Any => {
+                        backend::invalidate_app_cache();
                     }
                     _ => {}
                 }
@@ -83,6 +112,7 @@ fn main() {
 
     if is_service {
         watch_config_for_restart();
+        watch_app_dirs_invalidate_cache();
     }
 
     if is_service {

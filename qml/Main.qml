@@ -21,13 +21,7 @@ ApplicationWindow {
     readonly property int buttonRadius: Math.max(8, Math.round(panelRadius * 0.5))
     readonly property int editorInnerRadius: Math.max(10, panelRadius)
 
-    // One "step" of mouse wheel scroll in Qt's angle-delta units (15 degrees * 8 = 120)
     readonly property int wheelStepAngle: 120
-
-    // Tracks whether the editor side-panel is mid-animation.
-    // Used to relax min/max width constraints during the transition so that
-    // KWin (and other compositors) don't fight the resize via set_min/max_size,
-    // while still locking the size when stable to block Win+Arrow snapping.
     property bool editorAnimating: false
 
     width: collapsedWidth + editorWidth + (editorWidth > 0 ? paneGap : 0)
@@ -38,8 +32,6 @@ ApplicationWindow {
 
     minimumHeight: baseHeight
     maximumHeight: baseHeight
-    // While stable: min == max == width  →  compositor cannot snap/resize with Win+Arrow.
-    // While animating: open the valid range so KWin doesn't block the resize.
     minimumWidth: editorAnimating ? collapsedWidth : width
     maximumWidth: editorAnimating ? expandedWidth   : width
 
@@ -82,30 +74,38 @@ ApplicationWindow {
         if (backend.resident_mode) {
             hideLauncher()
         } else {
-            // Standalone theme editor (smoothysearch --themes):
-            // save the previewed theme to config.toml right before closing,
-            // so the resident service picks it up on its next start.
             if (backend.is_themes_mode)
                 backend.save_selected_theme()
             Qt.quit()
         }
     }
 
-    // Скрываем окно ДО запуска приложения — лаунчер не "висит" пока грузится тяжёлая программа.
-    // Порядок важен: hide() → launch_current() → сброс поля.
-    // Нельзя сбрасывать query ДО launch_current: это перестроит filtered_entries и запустится не тот элемент.
-    // В themes mode не скрываем — пользователь выбирает тему интерактивно.
     function launchAndHide() {
         if (backend.is_themes_mode) {
             backend.launch_current()
             return
         }
-        hide()
+
+        const searchLaunch = backend.is_search_index(backend.current_index)
+        if (!searchLaunch)
+            hide()
+
         backend.launch_current()
-        if (backend.resident_mode) {
-            field.text = ""  // triggers onTextChanged → backend.set_query(""), готовим к следующему вызову
+
+        const closeAfterLaunch = function() {
+            if (backend.resident_mode) {
+                field.text = ""
+                if (searchLaunch)
+                    hide()
+            } else {
+                Qt.quit()
+            }
+        }
+
+        if (searchLaunch) {
+            Qt.callLater(closeAfterLaunch)
         } else {
-            Qt.quit()
+            closeAfterLaunch()
         }
     }
 
@@ -204,11 +204,26 @@ ApplicationWindow {
                                 onTextChanged: backend.set_query(text)
                                 cursorVisible: true
 
-                                Keys.onDownPressed: backend.move_down()
-                                Keys.onUpPressed: backend.move_up()
-                                Keys.onReturnPressed: launchAndHide()
-                                Keys.onEnterPressed: launchAndHide()
-                                Keys.onEscapePressed: win.handleCloseRequest()
+                                Keys.onDownPressed: function(event) {
+                                    backend.move_down()
+                                    event.accepted = true
+                                }
+                                Keys.onUpPressed: function(event) {
+                                    backend.move_up()
+                                    event.accepted = true
+                                }
+                                Keys.onReturnPressed: function(event) {
+                                    launchAndHide()
+                                    event.accepted = true
+                                }
+                                Keys.onEnterPressed: function(event) {
+                                    launchAndHide()
+                                    event.accepted = true
+                                }
+                                Keys.onEscapePressed: function(event) {
+                                    win.handleCloseRequest()
+                                    event.accepted = true
+                                }
 
                                 Behavior on color {
                                     ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
@@ -405,18 +420,13 @@ ApplicationWindow {
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.left: parent.left
                                     anchors.leftMargin: 14
-                                    spacing: 12
+                                    spacing: backend.is_themes_mode ? 12 : 0
 
                                     Item {
-                                        width: 20
+                                        width: backend.is_themes_mode ? 12 : 0
                                         height: 20
                                         anchors.verticalCenter: parent.verticalCenter
-
-                                        readonly property string iconPath: (
-                                            index >= 0 && index < backend.icon_paths.length
-                                            ? backend.icon_paths[index]
-                                            : ""
-                                        )
+                                        visible: backend.is_themes_mode
 
                                         readonly property string previewColor: (
                                             index >= 0 && index < backend.preview_colors.length
@@ -424,37 +434,55 @@ ApplicationWindow {
                                             : ""
                                         )
 
-                                        Image {
-                                            anchors.fill: parent
-                                            visible: !backend.is_themes_mode && parent.iconPath !== ""
-                                            source: parent.iconPath !== "" ? "file://" + parent.iconPath : ""
-                                            fillMode: Image.PreserveAspectFit
-                                            smooth: true
-                                            mipmap: true
-                                            asynchronous: true
-                                            cache: true
-                                            sourceSize.width: 20
-                                            sourceSize.height: 20
-                                        }
-
                                         Rectangle {
                                             width: 12
                                             height: 12
                                             radius: 6
                                             anchors.centerIn: parent
-                                            visible: backend.is_themes_mode && parent.previewColor !== ""
+                                            visible: parent.previewColor !== ""
                                             color: parent.previewColor
                                             border.width: 1
                                             border.color: Qt.rgba(0, 0, 0, 0.18)
                                         }
                                     }
 
-                                    Text {
-                                        text: modelData
-                                        font.pixelSize: 17
-                                        color: rowItem.visuallySelected
-                                        ? backend.theme_highlight_text
-                                        : backend.theme_text
+                                    Item {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        width: searchLabel.visible
+                                            ? searchLabel.implicitWidth + searchQueryLabel.implicitWidth
+                                            : defaultLabel.implicitWidth
+                                        height: Math.max(defaultLabel.implicitHeight, searchLabel.implicitHeight)
+
+                                        readonly property color rowColor: rowItem.visuallySelected
+                                            ? backend.theme_highlight_text
+                                            : backend.theme_text
+                                        readonly property bool searchEntry: backend.is_search_index(index)
+
+                                        Text {
+                                            id: defaultLabel
+                                            visible: !parent.searchEntry
+                                            text: modelData
+                                            font.pixelSize: 17
+                                            color: parent.rowColor
+                                        }
+
+                                        Text {
+                                            id: searchLabel
+                                            visible: parent.searchEntry
+                                            text: "Search"
+                                            font.pixelSize: 17
+                                            color: parent.rowColor
+                                            opacity: 0.56
+                                        }
+
+                                        Text {
+                                            id: searchQueryLabel
+                                            visible: parent.searchEntry
+                                            anchors.left: searchLabel.right
+                                            text: backend.current_text !== "" ? " " + backend.current_text : ""
+                                            font.pixelSize: 17
+                                            color: parent.rowColor
+                                        }
                                     }
                                 }
 
@@ -499,43 +527,6 @@ ApplicationWindow {
                             }
                         }
 
-                        Column {
-                            anchors.centerIn: parent
-                            spacing: 8
-                            visible: backend.show_command_hint
-                            opacity: backend.show_command_hint ? 1.0 : 0.0
-
-                            Behavior on opacity {
-                                NumberAnimation {
-                                    duration: 180
-                                    easing.type: Easing.OutCubic
-                                }
-                            }
-
-                            Text {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                text: "<b>Enter</b> to execute fast command:"
-                                textFormat: Text.RichText
-                                color: backend.theme_text_dim
-                                font.pixelSize: 18
-
-                                Behavior on color {
-                                    ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
-                                }
-                            }
-
-                            Text {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                text: backend.command_preview
-                                color: backend.theme_text_dim
-                                font.pixelSize: 17
-                                font.bold: true
-
-                                Behavior on color {
-                                    ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
-                                }
-                            }
-                        }
                     }
                 }
             }

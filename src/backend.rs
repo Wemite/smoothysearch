@@ -4,6 +4,9 @@ mod ffi {
         include!("cxx-qt-lib/qstring.h");
         type QString = cxx_qt_lib::QString;
 
+        include!("smoothysearch/qt_url_opener.h");
+        fn open_url_with_activation(url: &QString) -> bool;
+
         include!("cxx-qt-lib/qstringlist.h");
         type QStringList = cxx_qt_lib::QStringList;
     }
@@ -16,8 +19,6 @@ mod ffi {
         #[qproperty(QStringList, icon_paths)]
         #[qproperty(QStringList, preview_colors)]
         #[qproperty(i32, current_index)]
-        #[qproperty(bool, show_command_hint)]
-        #[qproperty(QString, command_preview)]
         #[qproperty(bool, is_themes_mode)]
         #[qproperty(QString, theme_window_bg)]
         #[qproperty(QString, theme_border)]
@@ -58,6 +59,9 @@ mod ffi {
         fn is_applied_theme_index(self: &Backend, index: i32) -> bool;
 
         #[qinvokable]
+        fn is_search_index(self: &Backend, index: i32) -> bool;
+
+        #[qinvokable]
         fn toggle_editor(self: Pin<&mut Backend>);
 
         #[qinvokable]
@@ -69,12 +73,9 @@ mod ffi {
         #[qinvokable]
         fn poll_resident_command(self: Pin<&mut Backend>) -> i32;
 
-        /// Saves the currently previewed theme to config.toml.
-        /// Called by QML when the theme editor window is about to close.
         #[qinvokable]
         fn save_selected_theme(self: Pin<&mut Backend>);
 
-        /// Switches the editor between themes.toml and config.toml.
         #[qinvokable]
         fn set_editor_file(self: Pin<&mut Backend>, is_config: bool);
     }
@@ -121,6 +122,8 @@ struct AppItem {
 enum EntryItem {
     App(AppItem),
     Theme { id: String, name: String },
+    InternetSearch,
+    ExecCommand,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
@@ -143,9 +146,6 @@ pub struct BackendRust {
     icon_paths: QStringList,
     preview_colors: QStringList,
     current_index: i32,
-    show_command_hint: bool,
-    command_preview: QString,
-
     is_themes_mode: bool,
     theme_window_bg: QString,
     theme_border: QString,
@@ -186,7 +186,9 @@ impl BackendRust {
 
         for entry in entries {
             match entry {
-                EntryItem::App(_) => list.append(QString::from("")),
+                EntryItem::App(_) | EntryItem::InternetSearch | EntryItem::ExecCommand => {
+                    list.append(QString::from(""))
+                }
                 EntryItem::Theme { id, .. } => {
                     let theme = get_theme_preset(id);
                     list.append(QString::from(theme.highlight.as_str()));
@@ -205,7 +207,12 @@ impl BackendRust {
         let home = Self::home_dir();
         vec![
             PathBuf::from(format!("{home}/.local/share/applications")),
+            PathBuf::from("/usr/local/share/applications"),
             PathBuf::from("/usr/share/applications"),
+            PathBuf::from("/var/lib/flatpak/exports/share/applications"),
+            PathBuf::from(format!(
+                "{home}/.local/share/flatpak/exports/share/applications"
+            )),
         ]
     }
 
@@ -228,18 +235,18 @@ impl BackendRust {
 
     fn now_ms() -> u128 {
         SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .map(|d| d.as_millis())
-        .unwrap_or(0)
+            .duration_since(UNIX_EPOCH)
+            .map(|d| d.as_millis())
+            .unwrap_or(0)
     }
 
     fn command_file_mtime_ms(path: &Path) -> u128 {
         fs::metadata(path)
-        .ok()
-        .and_then(|m| m.modified().ok())
-        .and_then(|t| t.duration_since(UNIX_EPOCH).ok())
-        .map(|d| d.as_millis())
-        .unwrap_or(0)
+            .ok()
+            .and_then(|m| m.modified().ok())
+            .and_then(|t| t.duration_since(UNIX_EPOCH).ok())
+            .map(|d| d.as_millis())
+            .unwrap_or(0)
     }
 
     fn is_resident_mode() -> bool {
@@ -252,11 +259,11 @@ impl BackendRust {
 
     fn file_mtime_ms(path: &Path) -> u128 {
         fs::metadata(path)
-        .ok()
-        .and_then(|m| m.modified().ok())
-        .and_then(|t| t.duration_since(UNIX_EPOCH).ok())
-        .map(|d| d.as_millis())
-        .unwrap_or(0)
+            .ok()
+            .and_then(|m| m.modified().ok())
+            .and_then(|t| t.duration_since(UNIX_EPOCH).ok())
+            .map(|d| d.as_millis())
+            .unwrap_or(0)
     }
 
     fn write_resident_command(command: &str) {
@@ -264,8 +271,8 @@ impl BackendRust {
         let _ = fs::create_dir_all(&dir);
 
         let exe_mtime = Self::current_exe_path()
-        .map(|p| Self::file_mtime_ms(&p))
-        .unwrap_or(0);
+            .map(|p| Self::file_mtime_ms(&p))
+            .unwrap_or(0);
 
         let payload = format!("{}\n{}\n{}\n", command, exe_mtime, Self::now_ms());
         let _ = fs::write(Self::resident_command_file(), payload);
@@ -346,133 +353,8 @@ impl BackendRust {
 
     fn parse_bool(value: Option<&String>) -> bool {
         value
-        .map(|v| v.trim().eq_ignore_ascii_case("true"))
-        .unwrap_or(false)
-    }
-
-    fn icon_extensions() -> [&'static str; 3] {
-        ["png", "svg", "xpm"]
-    }
-
-    fn existing_icon_path(path: &Path) -> Option<String> {
-        if path.is_file() {
-            Some(path.to_string_lossy().to_string())
-        } else {
-            None
-        }
-    }
-
-    fn resolve_explicit_icon_path(icon: &str) -> Option<String> {
-        let path = PathBuf::from(icon);
-
-        if let Some(found) = Self::existing_icon_path(&path) {
-            return Some(found);
-        }
-
-        if path.extension().is_none() {
-            for ext in Self::icon_extensions() {
-                let candidate = path.with_extension(ext);
-                if let Some(found) = Self::existing_icon_path(&candidate) {
-                    return Some(found);
-                }
-            }
-        }
-
-        None
-    }
-
-    fn search_in_theme_dir(theme_dir: &Path, icon: &str) -> Option<String> {
-        for ext in Self::icon_extensions() {
-            let direct = theme_dir.join(format!("{}.{}", icon, ext));
-            if let Some(found) = Self::existing_icon_path(&direct) {
-                return Some(found);
-            }
-
-            let direct_apps = theme_dir.join("apps").join(format!("{}.{}", icon, ext));
-            if let Some(found) = Self::existing_icon_path(&direct_apps) {
-                return Some(found);
-            }
-        }
-
-        let entries = fs::read_dir(theme_dir).ok()?;
-        for entry in entries.flatten() {
-            let size_dir = entry.path();
-            if !size_dir.is_dir() {
-                continue;
-            }
-
-            for ext in Self::icon_extensions() {
-                let candidate = size_dir.join("apps").join(format!("{}.{}", icon, ext));
-                if let Some(found) = Self::existing_icon_path(&candidate) {
-                    return Some(found);
-                }
-            }
-        }
-
-        None
-    }
-
-    fn search_icon_by_name(icon: &str) -> Option<String> {
-        let home = Self::home_dir();
-
-        let icon_bases = vec![
-            PathBuf::from(format!("{home}/.local/share/icons")),
-            PathBuf::from(format!("{home}/.icons")),
-            PathBuf::from("/usr/share/icons"),
-        ];
-
-        for base in icon_bases {
-            if !base.is_dir() {
-                continue;
-            }
-
-            let Ok(entries) = fs::read_dir(&base) else {
-                continue;
-            };
-
-            for entry in entries.flatten() {
-                let theme_dir = entry.path();
-                if !theme_dir.is_dir() {
-                    continue;
-                }
-
-                if let Some(found) = Self::search_in_theme_dir(&theme_dir, icon) {
-                    return Some(found);
-                }
-            }
-        }
-
-        let pixmaps = vec![
-            PathBuf::from("/usr/share/pixmaps"),
-            PathBuf::from(format!("{home}/.local/share/pixmaps")),
-        ];
-
-        for base in pixmaps {
-            if !base.is_dir() {
-                continue;
-            }
-
-            for ext in Self::icon_extensions() {
-                let candidate = base.join(format!("{}.{}", icon, ext));
-                if let Some(found) = Self::existing_icon_path(&candidate) {
-                    return Some(found);
-                }
-            }
-        }
-
-        None
-    }
-
-    fn resolve_icon_path(icon_value: Option<&String>) -> String {
-        let Some(icon) = icon_value.map(|s| s.trim()).filter(|s| !s.is_empty()) else {
-            return String::new();
-        };
-
-        if icon.contains('/') {
-            return Self::resolve_explicit_icon_path(icon).unwrap_or_default();
-        }
-
-        Self::search_icon_by_name(icon).unwrap_or_default()
+            .map(|v| v.trim().eq_ignore_ascii_case("true"))
+            .unwrap_or(false)
     }
 
     fn parse_desktop_file(path: &Path) -> Option<AppItem> {
@@ -525,7 +407,6 @@ impl BackendRust {
         }
 
         let terminal = Self::parse_bool(map.get("Terminal"));
-        let icon_path = Self::resolve_icon_path(map.get("Icon"));
         let name_lower = name.to_lowercase();
 
         Some(AppItem {
@@ -533,7 +414,7 @@ impl BackendRust {
             name_lower,
             exec,
             terminal,
-            icon_path,
+            icon_path: String::new(),
         })
     }
 
@@ -561,16 +442,16 @@ impl BackendRust {
                 };
 
                 let mtime_ns = meta
-                .modified()
-                .ok()
-                .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
-                .map(|d| d.as_nanos())
-                .unwrap_or(0);
+                    .modified()
+                    .ok()
+                    .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
+                    .map(|d| d.as_nanos())
+                    .unwrap_or(0);
 
                 signatures.push(FileSignature {
                     path: path.to_string_lossy().to_string(),
-                                mtime_ns,
-                                size: meta.len(),
+                    mtime_ns,
+                    size: meta.len(),
                 });
             }
         }
@@ -607,11 +488,9 @@ impl BackendRust {
     }
 
     fn build_apps_from_desktop_files() -> Vec<AppItem> {
-
         let mut apps_by_name: HashMap<String, AppItem> = HashMap::new();
-
         let home = Self::home_dir();
-        let local_apps_dir = format!("{home}/.local/share/applications");
+        let home_prefix = format!("{home}/");
 
         for base in Self::app_dirs() {
             if !base.is_dir() {
@@ -639,7 +518,7 @@ impl BackendRust {
 
                 let key = app.name.to_lowercase();
                 let prefer_this = !apps_by_name.contains_key(&key)
-                || base.to_string_lossy().starts_with(&local_apps_dir);
+                    || base.to_string_lossy().starts_with(&home_prefix);
 
                 if prefer_this {
                     apps_by_name.insert(key, app);
@@ -650,6 +529,11 @@ impl BackendRust {
         let mut apps: Vec<AppItem> = apps_by_name.into_values().collect();
         apps.sort_by_key(|a| a.name.to_lowercase());
         apps
+    }
+
+    fn invalidate_app_cache() {
+        let path = Self::cache_file();
+        let _ = fs::remove_file(path);
     }
 
     fn load_desktop_apps() -> Vec<AppItem> {
@@ -694,7 +578,10 @@ impl BackendRust {
             }
         }
 
-        scored.sort_by(|a, b| b.0.cmp(&a.0).then_with(|| a.1.name_lower.cmp(&b.1.name_lower)));
+        scored.sort_by(|a, b| {
+            b.0.cmp(&a.0)
+                .then_with(|| a.1.name_lower.cmp(&b.1.name_lower))
+        });
 
         scored.into_iter().map(|(_, app)| app).collect()
     }
@@ -704,34 +591,36 @@ impl BackendRust {
         let theme_ids = all_theme_ids();
 
         let custom_ids: std::collections::HashSet<String> =
-        load_custom_themes().into_iter().map(|t| t.id).collect();
+            load_custom_themes().into_iter().map(|t| t.id).collect();
 
         if q.is_empty() {
             let mut items: Vec<EntryItem> = theme_ids
-            .iter()
-            .map(|id| EntryItem::Theme {
-                id: id.to_string(),
-                 name: theme_display_name(id),
-            })
-            .collect();
+                .iter()
+                .map(|id| EntryItem::Theme {
+                    id: id.to_string(),
+                    name: theme_display_name(id),
+                })
+                .collect();
 
             items.sort_by(|a, b| {
                 let (a_id, a_name): (&str, &str) = match a {
                     EntryItem::Theme { id, name } => (id.as_str(), name.as_str()),
-                          EntryItem::App(app) => (app.name.as_str(), app.name.as_str()),
+                    EntryItem::App(app) => (app.name.as_str(), app.name.as_str()),
+                    EntryItem::InternetSearch | EntryItem::ExecCommand => ("", ""),
                 };
 
                 let (b_id, b_name): (&str, &str) = match b {
                     EntryItem::Theme { id, name } => (id.as_str(), name.as_str()),
-                          EntryItem::App(app) => (app.name.as_str(), app.name.as_str()),
+                    EntryItem::App(app) => (app.name.as_str(), app.name.as_str()),
+                    EntryItem::InternetSearch | EntryItem::ExecCommand => ("", ""),
                 };
 
                 let a_user = custom_ids.contains(a_id);
                 let b_user = custom_ids.contains(b_id);
 
                 b_user
-                .cmp(&a_user)
-                .then_with(|| a_name.to_lowercase().cmp(&b_name.to_lowercase()))
+                    .cmp(&a_user)
+                    .then_with(|| a_name.to_lowercase().cmp(&b_name.to_lowercase()))
             });
 
             return items;
@@ -771,21 +660,32 @@ impl BackendRust {
                 best_score + bonus,
                 is_custom,
                 name_lower.clone(),
-                         EntryItem::Theme {
-                             id: id.to_string(),
-                         name: display,
-                         },
+                EntryItem::Theme {
+                    id: id.to_string(),
+                    name: display,
+                },
             ));
         }
 
-        scored.sort_by(|a, b| b.0.cmp(&a.0).then_with(|| b.1.cmp(&a.1)).then_with(|| a.2.cmp(&b.2)));
+        scored.sort_by(|a, b| {
+            b.0.cmp(&a.0)
+                .then_with(|| b.1.cmp(&a.1))
+                .then_with(|| a.2.cmp(&b.2))
+        });
 
         scored.into_iter().map(|(_, _, _, item)| item).collect()
     }
 
     fn filter_entries(&self, query: &str) -> Vec<EntryItem> {
         match self.mode.unwrap_or(AppMode::Apps) {
-            AppMode::Apps => self.filter_apps(query).into_iter().map(EntryItem::App).collect(),
+            AppMode::Apps => {
+                let apps = self.filter_apps(query);
+                if apps.is_empty() && !query.trim().is_empty() {
+                    vec![EntryItem::ExecCommand, EntryItem::InternetSearch]
+                } else {
+                    apps.into_iter().map(EntryItem::App).collect()
+                }
+            }
             AppMode::Themes => self.filter_themes(query),
         }
     }
@@ -797,6 +697,8 @@ impl BackendRust {
             match entry {
                 EntryItem::App(app) => list.append(QString::from(app.name.as_str())),
                 EntryItem::Theme { name, .. } => list.append(QString::from(name.as_str())),
+                EntryItem::InternetSearch => list.append(QString::from("Search")),
+                EntryItem::ExecCommand => list.append(QString::from("Exec command")),
             }
         }
 
@@ -809,7 +711,9 @@ impl BackendRust {
         for entry in entries {
             match entry {
                 EntryItem::App(app) => list.append(QString::from(app.icon_path.as_str())),
-                EntryItem::Theme { .. } => list.append(QString::from("")),
+                EntryItem::Theme { .. } | EntryItem::InternetSearch | EntryItem::ExecCommand => {
+                    list.append(QString::from(""))
+                }
             }
         }
 
@@ -829,9 +733,6 @@ impl BackendRust {
         (items, icon_paths, preview_colors, current_index)
     }
 
-    /// Parse an XDG desktop entry Exec string into an argv vector.
-    /// Handles double-quoted arguments and backslash escapes within quotes.
-    /// Does NOT invoke a shell — avoids command injection via malicious .desktop files.
     fn parse_exec_args(exec: &str) -> Vec<String> {
         let mut args: Vec<String> = Vec::new();
         let mut current = String::new();
@@ -868,53 +769,44 @@ impl BackendRust {
         args
     }
 
-    /// Tries to center the window of a freshly launched app on Wayland.
-    /// Polls in a background thread until the window appears (up to 5 s).
-    ///
-    /// Compositor support:
-    ///   - Sway      → `swaymsg [pid=X] move position center`
-    ///   - Hyprland  → `hyprctl dispatch focuswindow` + `centerwindow`
-    ///   - KDE Plasma Wayland, GNOME Wayland, and others: no standard external
-    ///     CLI tool available; `launchAndHide()` in QML already helps by giving
-    ///     the compositor a clean slate for its default placement policy.
     fn try_center_window_for_pid(pid: u32) {
         thread::spawn(move || {
             const POLL_MS: u64 = 100;
-            const MAX_POLLS: u32 = 50; // up to 5 s
+            const MAX_POLLS: u32 = 50;
 
-            // --- Sway (Wayland) ---
             if Self::is_in_path("swaymsg") {
                 for _ in 0..MAX_POLLS {
                     thread::sleep(Duration::from_millis(POLL_MS));
                     let ok = Command::new("swaymsg")
-                    .arg(format!("[pid={}] move position center", pid))
-                    .stdout(Stdio::null())
-                    .stderr(Stdio::null())
-                    .status()
-                    .map(|s| s.success())
-                    .unwrap_or(false);
-                    if ok { return; }
+                        .arg(format!("[pid={}] move position center", pid))
+                        .stdout(Stdio::null())
+                        .stderr(Stdio::null())
+                        .status()
+                        .map(|s| s.success())
+                        .unwrap_or(false);
+                    if ok {
+                        return;
+                    }
                 }
                 return;
             }
 
-            // --- Hyprland (Wayland) ---
             if Self::is_in_path("hyprctl") {
                 for _ in 0..MAX_POLLS {
                     thread::sleep(Duration::from_millis(POLL_MS));
                     let focused = Command::new("hyprctl")
-                    .args(["dispatch", "focuswindow", &format!("pid:{}", pid)])
-                    .stdout(Stdio::null())
-                    .stderr(Stdio::null())
-                    .status()
-                    .map(|s| s.success())
-                    .unwrap_or(false);
-                    if focused {
-                        let _ = Command::new("hyprctl")
-                        .args(["dispatch", "centerwindow"])
+                        .args(["dispatch", "focuswindow", &format!("pid:{}", pid)])
                         .stdout(Stdio::null())
                         .stderr(Stdio::null())
-                        .spawn();
+                        .status()
+                        .map(|s| s.success())
+                        .unwrap_or(false);
+                    if focused {
+                        let _ = Command::new("hyprctl")
+                            .args(["dispatch", "centerwindow"])
+                            .stdout(Stdio::null())
+                            .stderr(Stdio::null())
+                            .spawn();
                         return;
                     }
                 }
@@ -933,15 +825,14 @@ impl BackendRust {
         }
 
         if let Ok(child) = Command::new(&args[0])
-        .current_dir(&home)
-        .args(&args[1..])
-        .spawn()
+            .current_dir(&home)
+            .args(&args[1..])
+            .spawn()
         {
             Self::try_center_window_for_pid(child.id());
         }
     }
 
-    /// Returns true if `name` is found as an executable file in any $PATH directory.
     fn is_in_path(name: &str) -> bool {
         if let Ok(path_var) = std::env::var("PATH") {
             for dir in path_var.split(':') {
@@ -953,33 +844,253 @@ impl BackendRust {
         false
     }
 
-    /// Detects the best available terminal emulator:
-    /// 1. $TERMINAL env var — set in many Wayland WMs (Sway, Hyprland, …)
-    /// 2. xdg-terminal-exec — XDG standard, DE-agnostic
-    /// 3. x-terminal-emulator — Debian/Ubuntu alternatives (may point to any terminal)
-    /// 4. Known Wayland-compatible terminals in preference order
+    fn find_desktop_file(name: &str) -> Option<PathBuf> {
+        let base = name.trim().trim_end_matches(".desktop");
+        let with_ext = if name.ends_with(".desktop") {
+            name.to_string()
+        } else {
+            format!("{}.desktop", base)
+        };
+        for dir in Self::app_dirs() {
+            let path = dir.join(&with_ext);
+            if path.is_file() {
+                return Some(path);
+            }
+        }
+        None
+    }
+
+    fn exec_from_desktop(path: &Path) -> Option<String> {
+        let content = fs::read_to_string(path).ok()?;
+        let exec_line = content
+            .lines()
+            .find(|l| l.starts_with("Exec="))?
+            .strip_prefix("Exec=")?
+            .trim();
+        let mut tokens = exec_line.split_whitespace();
+        while let Some(t) = tokens.next() {
+            if t == "env" {
+                continue;
+            }
+            if t.contains('=') {
+                continue;
+            }
+            let exe = t.trim_matches('"');
+            if exe.is_empty() {
+                continue;
+            }
+            if Path::new(exe).is_absolute() {
+                return Some(exe.to_string());
+            }
+            if Self::is_in_path(exe) {
+                return Some(exe.to_string());
+            }
+            return Some(exe.to_string());
+        }
+        None
+    }
+
+    fn read_kdeglobals_terminal(path: &Path) -> Option<(Option<String>, Option<String>)> {
+        let content = fs::read_to_string(path).ok()?;
+        let mut in_general = false;
+        let mut terminal_application = None;
+        let mut terminal_service = None;
+        for line in content.lines() {
+            let line = line.trim();
+            if line.starts_with('[') {
+                in_general = line.eq_ignore_ascii_case("[General]");
+                continue;
+            }
+            if !in_general {
+                continue;
+            }
+            if let Some(rest) = line.strip_prefix("TerminalApplication=") {
+                let v = rest.trim().trim_matches('"');
+                if !v.is_empty() {
+                    terminal_application = Some(v.to_string());
+                }
+            }
+            if let Some(rest) = line.strip_prefix("TerminalService=") {
+                let v = rest.trim().trim_matches('"');
+                if !v.is_empty() {
+                    terminal_service = Some(v.to_string());
+                }
+            }
+        }
+        if terminal_application.is_some() || terminal_service.is_some() {
+            Some((terminal_application, terminal_service))
+        } else {
+            None
+        }
+    }
+
+    fn default_terminal_kde_from_config() -> Option<String> {
+        let home = Self::home_dir();
+        let path = PathBuf::from(format!("{}/.config/kdeglobals", home));
+        if !path.is_file() {
+            return None;
+        }
+        let (term_app, term_service) = Self::read_kdeglobals_terminal(&path)?;
+        if let Some(service) = term_service {
+            let desktop_path = Self::find_desktop_file(&service);
+            if let Some(ref p) = desktop_path {
+                if let Some(exec) = Self::exec_from_desktop(p) {
+                    return Some(exec);
+                }
+            }
+        }
+        if let Some(app) = term_app {
+            let app = app.trim();
+            if Path::new(app).is_absolute() {
+                if Path::new(app).is_file() {
+                    return Some(app.to_string());
+                }
+                return None;
+            }
+            if Self::is_in_path(app) {
+                return Some(app.to_string());
+            }
+            return Some(app.to_string());
+        }
+        None
+    }
+
+    fn default_terminal_xdg_list() -> Option<String> {
+        let home = Self::home_dir();
+        let candidates = [
+            format!("{}/.config/xdg-terminals.list", home),
+            "/etc/xdg/xdg-terminals.list".to_string(),
+        ];
+        for path_str in candidates {
+            let path = Path::new(&path_str);
+            if !path.is_file() {
+                continue;
+            }
+            let content = match fs::read_to_string(path) {
+                Ok(c) => c,
+                Err(_) => continue,
+            };
+            for line in content.lines() {
+                let line = line.trim();
+                if line.is_empty() || line.starts_with('#') {
+                    continue;
+                }
+                let id = line.trim_start_matches('-');
+                if let Some(desktop_path) = Self::find_desktop_file(id) {
+                    if let Some(exec) = Self::exec_from_desktop(&desktop_path) {
+                        return Some(exec);
+                    }
+                }
+            }
+        }
+        None
+    }
+
+    fn default_terminal_gnome() -> Option<String> {
+        let out = Command::new("gsettings")
+            .args([
+                "get",
+                "org.gnome.desktop.default-applications.terminal",
+                "exec",
+            ])
+            .output()
+            .ok()?;
+        if !out.status.success() {
+            return None;
+        }
+        let s = String::from_utf8_lossy(&out.stdout);
+        let s = s.trim().trim_matches('\'');
+        let exec = s.split_whitespace().next()?;
+        if exec.is_empty() {
+            return None;
+        }
+        if Path::new(exec).is_absolute() {
+            if Path::new(exec).is_file() {
+                return Some(exec.to_string());
+            }
+            return None;
+        }
+        if Self::is_in_path(exec) {
+            Some(exec.to_string())
+        } else {
+            None
+        }
+    }
+
+    fn default_terminal_kde() -> Option<String> {
+        for cmd in ["kreadconfig6", "kreadconfig"] {
+            let out = Command::new(cmd)
+                .args([
+                    "--file",
+                    "kdeglobals",
+                    "--group",
+                    "General",
+                    "--key",
+                    "TerminalApplication",
+                ])
+                .output()
+                .ok()?;
+            if !out.status.success() {
+                continue;
+            }
+            let s = String::from_utf8_lossy(&out.stdout);
+            let exec = s.trim();
+            if exec.is_empty() {
+                continue;
+            }
+            if Path::new(exec).is_absolute() {
+                if Path::new(exec).is_file() {
+                    return Some(exec.to_string());
+                }
+                continue;
+            }
+            if Self::is_in_path(exec) {
+                return Some(exec.to_string());
+            }
+        }
+        None
+    }
+
     fn detect_terminal() -> Option<String> {
         if let Ok(term) = std::env::var("TERMINAL") {
             let term = term.trim().to_string();
-            if !term.is_empty() && Self::is_in_path(&term) {
+            if !term.is_empty()
+                && (term.contains('/') && Path::new(&term).is_file() || Self::is_in_path(&term))
+            {
                 return Some(term);
             }
         }
 
-        let candidates = [
-            "xdg-terminal-exec",   // XDG standard
-            "x-terminal-emulator", // Debian/Ubuntu alternatives
-            "konsole",             // KDE Plasma
-            "gnome-terminal",      // GNOME
-            "xfce4-terminal",      // XFCE
+        if let Some(term) = Self::default_terminal_kde_from_config() {
+            return Some(term);
+        }
+        if let Some(term) = Self::default_terminal_kde() {
+            return Some(term);
+        }
+        if let Some(term) = Self::default_terminal_gnome() {
+            return Some(term);
+        }
+        if let Some(term) = Self::default_terminal_xdg_list() {
+            return Some(term);
+        }
+        if Self::is_in_path("xdg-terminal-exec") {
+            return Some("xdg-terminal-exec".to_string());
+        }
+        if Self::is_in_path("x-terminal-emulator") {
+            return Some("x-terminal-emulator".to_string());
+        }
+
+        let fallbacks = [
+            "konsole",
+            "gnome-terminal",
+            "xfce4-terminal",
             "alacritty",
             "kitty",
-            "foot",                // Wayland-native
+            "foot",
             "wezterm",
             "tilix",
         ];
-
-        for name in candidates {
+        for name in fallbacks {
             if Self::is_in_path(name) {
                 return Some(name.to_string());
             }
@@ -988,19 +1099,123 @@ impl BackendRust {
         None
     }
 
-    /// Builds the full argument list for the detected terminal to execute `cmd_args`.
-    /// Each terminal has its own calling convention for running a command.
     fn terminal_launch_args(terminal: &str, cmd_args: &[String]) -> Vec<String> {
-        let mut args: Vec<String> = match terminal {
-            "gnome-terminal"                        => vec!["--".to_string()],
-            "wezterm"                               => vec!["start".to_string(), "--".to_string()],
-            "konsole"                               => vec!["--hold".to_string(), "-e".to_string()],
-            // xdg-terminal-exec, kitty, and foot accept the command directly (no flag)
+        let name = Path::new(terminal)
+            .file_name()
+            .and_then(|s| s.to_str())
+            .unwrap_or(terminal);
+        let mut args: Vec<String> = match name {
+            "gnome-terminal" => vec!["--".to_string()],
+            "wezterm" => vec!["start".to_string(), "--".to_string()],
+            "konsole" => vec!["--hold".to_string(), "-e".to_string()],
             "xdg-terminal-exec" | "kitty" | "foot" => vec![],
-            _                                       => vec!["-e".to_string()],
+            _ => vec!["-e".to_string()],
         };
         args.extend_from_slice(cmd_args);
         args
+    }
+
+    fn url_encode_query(s: &str) -> String {
+        let mut out = String::with_capacity(s.len());
+        for b in s.as_bytes() {
+            match *b {
+                b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => {
+                    out.push(*b as char)
+                }
+                b' ' => out.push('+'),
+                _ => {
+                    out.push('%');
+                    for &hex in &[b >> 4, b & 15] {
+                        out.push(if hex < 10 {
+                            b'0' + hex
+                        } else {
+                            b'A' + hex - 10
+                        } as char);
+                    }
+                }
+            }
+        }
+        out
+    }
+
+    fn search_url_for_template(template: &str, encoded_query: &str) -> Option<String> {
+        let trimmed = template.trim();
+        if trimmed.is_empty() {
+            return None;
+        }
+
+        if trimmed.contains("%s")
+            && (trimmed.starts_with("https://") || trimmed.starts_with("http://"))
+        {
+            return Some(trimmed.replacen("%s", encoded_query, 1));
+        }
+
+        let base = if trimmed.starts_with("https://") || trimmed.starts_with("http://") {
+            trimmed.to_string()
+        } else {
+            format!("https://{}", trimmed)
+        };
+
+        let normalized = if base.ends_with('/') {
+            base
+        } else {
+            format!("{}/", base)
+        };
+
+        let host = normalized
+            .split("://")
+            .nth(1)
+            .and_then(|rest| rest.split('/').next())
+            .map(|value| value.to_ascii_lowercase())?;
+
+        let mapped = if host == "duckduckgo.com" || host.ends_with(".duckduckgo.com") {
+            format!("{}?q={}", normalized, encoded_query)
+        } else if host == "google.com"
+            || host.ends_with(".google.com")
+            || host == "google.ru"
+            || host.ends_with(".google.ru")
+        {
+            format!("{}search?q={}", normalized, encoded_query)
+        } else if host == "bing.com" || host.ends_with(".bing.com") {
+            format!("{}search?q={}", normalized, encoded_query)
+        } else if host == "search.brave.com" {
+            format!("{}search?q={}", normalized, encoded_query)
+        } else if host == "ecosia.org" || host.ends_with(".ecosia.org") {
+            format!("{}search?q={}", normalized, encoded_query)
+        } else if host == "startpage.com" || host.ends_with(".startpage.com") {
+            format!("{}sp/search?query={}", normalized, encoded_query)
+        } else if host == "search.yahoo.com" || host.ends_with(".search.yahoo.com") {
+            format!("{}search?p={}", normalized, encoded_query)
+        } else if host == "yahoo.com" || host.ends_with(".yahoo.com") {
+            format!("{}search?p={}", normalized, encoded_query)
+        } else if host == "yandex.ru"
+            || host.ends_with(".yandex.ru")
+            || host == "yandex.com"
+            || host.ends_with(".yandex.com")
+            || host == "ya.ru"
+            || host.ends_with(".ya.ru")
+        {
+            format!("{}search/?text={}", normalized, encoded_query)
+        } else {
+            format!("{}?q={}", normalized, encoded_query)
+        };
+
+        Some(mapped)
+    }
+
+    fn open_search_in_browser(query: &str) {
+        let query = query.trim();
+        if query.is_empty() {
+            return;
+        }
+        let encoded = Self::url_encode_query(query);
+        let cfg = load_config();
+        let url = Self::search_url_for_template(&cfg.search.url_template, &encoded)
+            .unwrap_or_else(|| format!("https://duckduckgo.com/?q={}", encoded));
+        if url.starts_with("https://") || url.starts_with("http://") {
+            let url = QString::from(url.as_str());
+            let _ = ffi::open_url_with_activation(&url);
+        }
     }
 
     fn run_in_terminal(command: &str) {
@@ -1017,12 +1232,22 @@ impl BackendRust {
             return;
         };
 
-        let args = Self::terminal_launch_args(&terminal, &cmd_args);
+        let mut run_args = vec![
+            "bash".to_string(),
+            "--noprofile".to_string(),
+            "--norc".to_string(),
+            "-c".to_string(),
+            "\"$@\"; exec bash --noprofile --norc -i".to_string(),
+            "--".to_string(),
+        ];
+        run_args.extend(cmd_args);
+
+        let args = Self::terminal_launch_args(&terminal, &run_args);
 
         let _ = Command::new(&terminal)
-        .current_dir(&home)
-        .args(&args)
-        .spawn();
+            .current_dir(&home)
+            .args(&args)
+            .spawn();
     }
 }
 
@@ -1067,11 +1292,11 @@ pub fn ensure_resident_service_running() {
     if resident_service_running() {
         if BackendRust::service_binary_is_stale() {
             let _ = Command::new("pkill")
-            .args(["-f", "smoothysearch --service"])
-            .stdin(Stdio::null())
-            .stdout(Stdio::null())
-            .stderr(Stdio::null())
-            .spawn();
+                .args(["-f", "smoothysearch --service"])
+                .stdin(Stdio::null())
+                .stdout(Stdio::null())
+                .stderr(Stdio::null())
+                .spawn();
 
             for _ in 0..SERVICE_KILL_RETRIES {
                 if !resident_service_running() {
@@ -1089,11 +1314,11 @@ pub fn ensure_resident_service_running() {
     };
 
     let _ = Command::new(exe)
-    .arg("--service")
-    .stdin(Stdio::null())
-    .stdout(Stdio::null())
-    .stderr(Stdio::null())
-    .spawn();
+        .arg("--service")
+        .stdin(Stdio::null())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn();
 
     for _ in 0..SERVICE_START_RETRIES {
         if resident_service_running() {
@@ -1102,13 +1327,33 @@ pub fn ensure_resident_service_running() {
         thread::sleep(Duration::from_millis(SERVICE_RETRY_DELAY_MS));
     }
 
-    eprintln!("[smoothysearch] service did not become ready after {}ms", SERVICE_START_RETRIES as u64 * SERVICE_RETRY_DELAY_MS);
+    eprintln!(
+        "[smoothysearch] service did not become ready after {}ms",
+        SERVICE_START_RETRIES as u64 * SERVICE_RETRY_DELAY_MS
+    );
 }
 
 pub fn request_resident_show() {
     BackendRust::write_resident_command("show");
 }
 
+pub fn invalidate_app_cache() {
+    BackendRust::invalidate_app_cache();
+}
+
+pub fn app_dirs_for_watch() -> Vec<PathBuf> {
+    let home = std::env::var("HOME").unwrap_or_default();
+    vec![
+        PathBuf::from(format!("{}/.local/share/applications", home)),
+        PathBuf::from("/usr/local/share/applications"),
+        PathBuf::from("/usr/share/applications"),
+        PathBuf::from("/var/lib/flatpak/exports/share/applications"),
+        PathBuf::from(format!(
+            "{}/.local/share/flatpak/exports/share/applications",
+            home
+        )),
+    ]
+}
 
 impl ffi::Backend {
     pub fn is_applied_theme_index(self: &ffi::Backend, index: i32) -> bool {
@@ -1122,6 +1367,18 @@ impl ffi::Backend {
             Some(EntryItem::Theme { id, .. }) => id == &self.applied_theme_id().to_string(),
             _ => false,
         }
+    }
+
+    pub fn is_search_index(self: &ffi::Backend, index: i32) -> bool {
+        if index < 0 {
+            return false;
+        }
+
+        let rust = self.rust();
+        matches!(
+            rust.filtered_entries.get(index as usize),
+            Some(EntryItem::InternetSearch)
+        )
     }
 
     pub fn poll_resident_command(mut self: Pin<&mut Self>) -> i32 {
@@ -1161,19 +1418,10 @@ impl ffi::Backend {
                         rust.all_apps = new_apps;
                         rust.refresh_entries_for_current_mode(&current_query)
                     };
-
                     self.as_mut().set_items(items);
                     self.as_mut().set_icon_paths(icon_paths);
                     self.as_mut().set_preview_colors(preview_colors);
                     self.as_mut().set_current_index(current_index);
-
-                    let trimmed = current_query.trim().to_string();
-                    let has_items = self.items().len() > 0;
-
-                    self.as_mut()
-                    .set_show_command_hint(!trimmed.is_empty() && !has_items);
-                    self.as_mut()
-                    .set_command_preview(QString::from(trimmed.as_str()));
                 }
 
                 1
@@ -1185,7 +1433,6 @@ impl ffi::Backend {
 
     pub fn set_query(mut self: Pin<&mut Self>, value: QString) {
         let query = value.to_string();
-        let trimmed = query.trim().to_string();
 
         let filtered = {
             let binding = self.as_ref();
@@ -1206,22 +1453,8 @@ impl ffi::Backend {
         self.as_mut().set_items(items);
         self.as_mut().set_icon_paths(icon_paths);
         self.as_mut().set_preview_colors(preview_colors);
-        self.as_mut().set_show_command_hint(false);
-        self.as_mut().set_command_preview(QString::default());
 
-        let is_themes_mode = *self.is_themes_mode();
         let has_items = self.items().len() > 0;
-
-        if is_themes_mode {
-            self.as_mut().set_show_command_hint(false);
-            self.as_mut().set_command_preview(QString::default());
-        } else {
-            self.as_mut()
-            .set_show_command_hint(!trimmed.is_empty() && !has_items);
-            self.as_mut()
-            .set_command_preview(QString::from(trimmed.as_str()));
-        }
-
         let new_index = if has_items { 0 } else { -1 };
         self.as_mut().set_current_index(new_index);
     }
@@ -1273,16 +1506,17 @@ impl ffi::Backend {
     pub fn load_themes_file(mut self: Pin<&mut Self>) {
         let text = if *self.editor_is_config() {
             config_path()
-            .and_then(|path| fs::read_to_string(path).ok())
-            .unwrap_or_default()
+                .and_then(|path| fs::read_to_string(path).ok())
+                .unwrap_or_default()
         } else {
             ensure_sample_themes_file_exists();
             BackendRust::themes_file_path()
-            .and_then(|path| fs::read_to_string(path).ok())
-            .unwrap_or_default()
+                .and_then(|path| fs::read_to_string(path).ok())
+                .unwrap_or_default()
         };
 
-        self.as_mut().set_themes_file_text(QString::from(text.as_str()));
+        self.as_mut()
+            .set_themes_file_text(QString::from(text.as_str()));
     }
 
     pub fn save_themes_file(mut self: Pin<&mut Self>) {
@@ -1306,9 +1540,6 @@ impl ffi::Backend {
         }
 
         if is_config {
-            // Config saved to disk. The resident service will pick it up
-            // when it next restarts (triggered by watch_config_for_restart).
-            // Re-read the file to sync the text buffer.
             self.as_mut().load_themes_file();
         } else {
             let current_query = self.current_text().to_string();
@@ -1330,7 +1561,7 @@ impl ffi::Backend {
             self.as_mut().set_preview_colors(preview_colors);
             self.as_mut().set_current_index(current_index);
             self.as_mut()
-            .set_applied_theme_id(QString::from(applied_id_to_use.as_str()));
+                .set_applied_theme_id(QString::from(applied_id_to_use.as_str()));
             self.as_mut().apply_theme_properties(&applied_id_to_use);
             self.as_mut().load_themes_file();
         }
@@ -1340,32 +1571,29 @@ impl ffi::Backend {
         let theme = get_theme_preset(theme_id);
 
         self.as_mut()
-        .set_theme_window_bg(QString::from(theme.window_bg.as_str()));
+            .set_theme_window_bg(QString::from(theme.window_bg.as_str()));
         self.as_mut()
-        .set_theme_border(QString::from(theme.border.as_str()));
+            .set_theme_border(QString::from(theme.border.as_str()));
         self.as_mut()
-        .set_theme_input_bg(QString::from(theme.input_bg.as_str()));
+            .set_theme_input_bg(QString::from(theme.input_bg.as_str()));
         self.as_mut()
-        .set_theme_text(QString::from(theme.text.as_str()));
+            .set_theme_text(QString::from(theme.text.as_str()));
         self.as_mut()
-        .set_theme_text_dim(QString::from(theme.text_dim.as_str()));
+            .set_theme_text_dim(QString::from(theme.text_dim.as_str()));
         self.as_mut()
-        .set_theme_highlight(QString::from(theme.highlight.as_str()));
+            .set_theme_highlight(QString::from(theme.highlight.as_str()));
         self.as_mut()
-        .set_theme_highlight_text(QString::from(theme.highlight_text.as_str()));
+            .set_theme_highlight_text(QString::from(theme.highlight_text.as_str()));
     }
 
-    /// Saves the currently selected theme ID to config.toml.
-    /// The resident service will pick up the change on its next start.
     pub fn save_selected_theme(self: Pin<&mut Self>) {
         let id = self.applied_theme_id().to_string();
         if !id.is_empty() {
             let _ = save_theme_preset(&id);
         }
+        BackendRust::invalidate_app_cache();
     }
 
-    /// Switches the editor text area between themes.toml (is_config=false)
-    /// and config.toml (is_config=true), then loads the appropriate file.
     pub fn set_editor_file(mut self: Pin<&mut Self>, is_config: bool) {
         self.as_mut().set_editor_is_config(is_config);
         self.as_mut().load_themes_file();
@@ -1382,19 +1610,19 @@ impl ffi::Backend {
 
             let has_entries = !rust.filtered_entries.is_empty();
 
-            let entry = if current_index >= 0 && (current_index as usize) < rust.filtered_entries.len()
-            {
-                rust.filtered_entries.get(current_index as usize).cloned()
-            } else if has_entries {
-                rust.filtered_entries.first().cloned()
-            } else {
-                None
-            };
+            let entry =
+                if current_index >= 0 && (current_index as usize) < rust.filtered_entries.len() {
+                    rust.filtered_entries.get(current_index as usize).cloned()
+                } else if has_entries {
+                    rust.filtered_entries.first().cloned()
+                } else {
+                    None
+                };
 
             (mode, has_entries, entry)
         };
 
-        let (mode, has_entries, entry) = selected_entry;
+        let (_, _, entry) = selected_entry;
 
         if let Some(entry) = entry {
             match entry {
@@ -1408,34 +1636,27 @@ impl ffi::Backend {
                     return;
                 }
                 EntryItem::Theme { id, .. } => {
-                    // Preview only — do NOT write config.toml here.
-                    // Writing immediately would trigger watch_config_for_restart()
-                    // in the resident service, causing it to exit() and restart.
-                    // The new service process briefly creates a Qt window which can
-                    // steal focus from the theme editor, closing it unexpectedly.
-                    // The actual save happens in save_selected_theme(), which QML
-                    // calls from handleCloseRequest() just before Qt.quit().
                     self.as_mut().apply_theme_properties(&id);
-                    self.as_mut().set_applied_theme_id(QString::from(id.as_str()));
+                    self.as_mut()
+                        .set_applied_theme_id(QString::from(id.as_str()));
+                    return;
+                }
+                EntryItem::InternetSearch => {
+                    let query = current_query.trim().to_string();
+                    if !query.is_empty() {
+                        BackendRust::open_search_in_browser(&query);
+                    }
+                    return;
+                }
+                EntryItem::ExecCommand => {
+                    let query = current_query.trim().to_string();
+                    if !query.is_empty() {
+                        BackendRust::run_in_terminal(&query);
+                    }
                     return;
                 }
             }
         }
-
-        if mode == AppMode::Themes {
-            return;
-        }
-
-        if has_entries {
-            return;
-        }
-
-        let raw_query = current_query.trim().to_string();
-        if raw_query.is_empty() {
-            return;
-        }
-
-        BackendRust::run_in_terminal(&raw_query);
     }
 }
 
@@ -1448,14 +1669,13 @@ impl Initialize for ffi::Backend {
         self.as_mut().set_window_width(config.window.width);
         self.as_mut().set_window_height(config.window.height);
         self.as_mut()
-        .set_window_editor_width(config.window.editor_width);
+            .set_window_editor_width(config.window.editor_width);
 
+        self.as_mut().set_ui_window_radius(config.ui.window_radius);
         self.as_mut()
-        .set_ui_window_radius(config.ui.window_radius);
+            .set_ui_search_bar_radius(config.ui.search_bar_radius);
         self.as_mut()
-        .set_ui_search_bar_radius(config.ui.search_bar_radius);
-        self.as_mut()
-        .set_ui_selector_radius(config.ui.selector_radius);
+            .set_ui_selector_radius(config.ui.selector_radius);
 
         let theme = get_theme_preset(&config.theme.preset);
 
@@ -1501,28 +1721,26 @@ impl Initialize for ffi::Backend {
         self.as_mut().set_themes_file_text(QString::default());
 
         self.as_mut()
-        .set_theme_window_bg(QString::from(theme.window_bg.as_str()));
+            .set_theme_window_bg(QString::from(theme.window_bg.as_str()));
         self.as_mut()
-        .set_theme_border(QString::from(theme.border.as_str()));
+            .set_theme_border(QString::from(theme.border.as_str()));
         self.as_mut()
-        .set_theme_input_bg(QString::from(theme.input_bg.as_str()));
+            .set_theme_input_bg(QString::from(theme.input_bg.as_str()));
         self.as_mut()
-        .set_theme_text(QString::from(theme.text.as_str()));
+            .set_theme_text(QString::from(theme.text.as_str()));
         self.as_mut()
-        .set_theme_text_dim(QString::from(theme.text_dim.as_str()));
+            .set_theme_text_dim(QString::from(theme.text_dim.as_str()));
         self.as_mut()
-        .set_theme_highlight(QString::from(theme.highlight.as_str()));
+            .set_theme_highlight(QString::from(theme.highlight.as_str()));
         self.as_mut()
-        .set_theme_highlight_text(QString::from(theme.highlight_text.as_str()));
+            .set_theme_highlight_text(QString::from(theme.highlight_text.as_str()));
 
         self.as_mut()
-        .set_applied_theme_id(QString::from(config.theme.preset.as_str()));
+            .set_applied_theme_id(QString::from(config.theme.preset.as_str()));
 
         self.as_mut().set_items(items);
         self.as_mut().set_icon_paths(icon_paths);
         self.as_mut().set_preview_colors(preview_colors);
-        self.as_mut().set_show_command_hint(false);
-        self.as_mut().set_command_preview(QString::default());
 
         let index = if self.items().len() > 0 { 0 } else { -1 };
         self.as_mut().set_current_index(index);

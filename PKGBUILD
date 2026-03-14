@@ -1,5 +1,5 @@
 pkgname=smoothysearch
-pkgver=0.2.1
+pkgver=0.2.2
 pkgrel=1
 pkgdesc="Minimal launcher for Linux built with Rust and Qt/QML"
 arch=('x86_64')
@@ -18,16 +18,8 @@ makedepends=(
 options=('!lto')
 provides=('smoothysearch')
 conflicts=('smoothysearch')
-source=(
-  'smoothysearch.desktop'
-  'smoothysearch-themer.desktop'
-  'smoothysearch-service.desktop'
-  'smoothysearch.png'
-)
-
-sha256sums=('SKIP' 'SKIP' 'SKIP')
-
-sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
+source=()
+sha256sums=()
 
 build() {
   cd "$startdir"
