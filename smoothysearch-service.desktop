@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=SmoothySearch Service
+Comment=Start SmoothySearch resident launcher service
+Exec=smoothysearch --service
+Icon=smoothysearch
+Terminal=false
+NoDisplay=true
+StartupNotify=false
+X-GNOME-Autostart-enabled=true
