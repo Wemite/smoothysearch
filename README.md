@@ -16,7 +16,7 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML** 
 
 - Fuzzy search
 - Quick commands
-- 14 built-in color presets + user themes
+- Built-in color presets + user themes
 - Configure the launcher directly in the `Switch theme` menu
 - Customizable window size and corner rounding
 
