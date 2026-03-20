@@ -80,14 +80,80 @@ pub fn ensure_sample_themes_file_exists() {
 
     let sample = r##"[[theme]]
     id = "my_theme_noir"
-    name = "Noir (Example)"
-    window_bg = "#252525"
-    border = "#303030"
-    input_bg = "#404040"
-    text = "#ffffff"
-    text_dim = "#909090"
-    highlight = "#909090"
-    highlight_text = "#000000"
+    name = "Noir"
+    window_bg = "rgba(37, 37, 37, 1.0)"
+    border = "rgba(48, 48, 48, 1.0)"
+    input_bg = "rgba(64, 64, 64, 1.0)"
+    text = "rgba(255, 255, 255, 1.0)"
+    text_dim = "rgba(144, 144, 144, 1.0)"
+    highlight = "rgba(144, 144, 144, 1.0)"
+    highlight_text = "rgba(0, 0, 0, 1.0)"
+
+[[theme]]
+    id = "my_theme_catppuccin"
+    name = "Catppuccin Mocha"
+    window_bg = "rgba(30, 30, 46, 1.0)"
+    border = "rgba(49, 50, 68, 1.0)"
+    input_bg = "rgba(49, 50, 68, 1.0)"
+    text = "rgba(205, 214, 244, 1.0)"
+    text_dim = "rgba(166, 173, 200, 1.0)"
+    highlight = "rgba(203, 166, 247, 1.0)"
+    highlight_text = "rgba(17, 17, 27, 1.0)"
+
+[[theme]]
+    id = "my_theme_catppuccin_latte"
+    name = "Catppuccin Latte"
+    window_bg = "rgba(239, 241, 245, 1.0)"
+    border = "rgba(204, 208, 218, 1.0)"
+    input_bg = "rgba(220, 224, 232, 1.0)"
+    text = "rgba(76, 79, 105, 1.0)"
+    text_dim = "rgba(124, 127, 147, 1.0)"
+    highlight = "rgba(136, 57, 239, 1.0)"
+    highlight_text = "rgba(255, 255, 255, 1.0)"
+
+[[theme]]
+    id = "my_theme_catppuccin_frappe"
+    name = "Catppuccin Frappe"
+    window_bg = "rgba(48, 52, 70, 1.0)"
+    border = "rgba(65, 69, 89, 1.0)"
+    input_bg = "rgba(65, 69, 89, 1.0)"
+    text = "rgba(198, 208, 245, 1.0)"
+    text_dim = "rgba(165, 173, 206, 1.0)"
+    highlight = "rgba(202, 158, 230, 1.0)"
+    highlight_text = "rgba(35, 38, 52, 1.0)"
+
+[[theme]]
+    id = "my_theme_catppuccin_macchiato"
+    name = "Catppuccin Macchiato"
+    window_bg = "rgba(36, 39, 58, 1.0)"
+    border = "rgba(54, 58, 79, 1.0)"
+    input_bg = "rgba(54, 58, 79, 1.0)"
+    text = "rgba(202, 211, 245, 1.0)"
+    text_dim = "rgba(165, 173, 203, 1.0)"
+    highlight = "rgba(198, 160, 246, 1.0)"
+    highlight_text = "rgba(24, 25, 38, 1.0)"
+
+[[theme]]
+    id = "everforest_dark_soft"
+    name = "Everforest Dark Soft"
+    window_bg = "rgba(41, 49, 54, 1.0)"
+    border = "rgba(60, 72, 65, 1.0)"
+    input_bg = "rgba(47, 56, 62, 1.0)"
+    text = "rgba(211, 198, 170, 1.0)"
+    text_dim = "rgba(133, 146, 137, 1.0)"
+    highlight = "rgba(167, 192, 128, 1.0)"
+    highlight_text = "rgba(45, 53, 59, 1.0)"
+
+[[theme]]
+    id = "everforest_light_soft"
+    name = "Everforest Light Soft"
+    window_bg = "rgba(255, 241, 245, 0.96)"
+    border = "rgba(220, 169, 188, 1.0)"
+    input_bg = "rgba(247, 221, 230, 0.92)"
+    text = "rgba(100, 75, 89, 1.0)"
+    text_dim = "rgba(220, 169, 188, 1.0)"
+    highlight = "rgba(217, 138, 173, 1.0)"
+    highlight_text = "rgba(255, 241, 245, 1.0)"
     "##;
 
     let _ = fs::write(path, sample);
@@ -126,21 +192,63 @@ fn custom_theme_to_preset(theme: &CustomThemePreset) -> ThemePreset {
     }
 }
 
-fn is_valid_hex_color(value: &str) -> bool {
+fn normalize_hex_color(value: &str) -> Option<String> {
     let s = value.trim();
+    let hex = s.strip_prefix('#')?;
 
-    let Some(hex) = s.strip_prefix('#') else {
-        return false;
-    };
+    if !matches!(hex.len(), 6 | 8) || !hex.chars().all(|c| c.is_ascii_hexdigit()) {
+        return None;
+    }
 
-    matches!(hex.len(), 6 | 8) && hex.chars().all(|c| c.is_ascii_hexdigit())
+    let upper = hex.to_ascii_uppercase();
+    Some(if upper.len() == 6 {
+        format!("#FF{upper}")
+    } else {
+        format!("#{upper}")
+    })
+}
+
+fn normalize_rgba_color(value: &str) -> Option<String> {
+    let s = value.trim();
+    let inner = s.strip_prefix("rgba(")?.strip_suffix(')')?;
+    let parts = inner.split(',').map(str::trim).collect::<Vec<_>>();
+
+    if parts.len() != 4 {
+        return None;
+    }
+
+    let r = parts[0].parse::<u8>().ok()?;
+    let g = parts[1].parse::<u8>().ok()?;
+    let b = parts[2].parse::<u8>().ok()?;
+    let alpha = parts[3].parse::<f32>().ok()?;
+
+    if !(0.0..=1.0).contains(&alpha) {
+        return None;
+    }
+
+    let a = (alpha * 255.0).round() as u8;
+    Some(format!("#{a:02X}{r:02X}{g:02X}{b:02X}"))
+}
+
+fn normalize_color(value: &str) -> Option<String> {
+    normalize_hex_color(value).or_else(|| normalize_rgba_color(value))
 }
 
 fn sanitize_color(value: &str, fallback: &str) -> String {
-    if is_valid_hex_color(value) {
-        value.trim().to_string()
-    } else {
-        fallback.to_string()
+    normalize_color(value).unwrap_or_else(|| fallback.to_string())
+}
+
+fn normalize_theme(theme: ThemePreset) -> ThemePreset {
+    ThemePreset {
+        id: theme.id,
+        name: theme.name,
+        window_bg: normalize_color(&theme.window_bg).unwrap_or(theme.window_bg),
+        border: normalize_color(&theme.border).unwrap_or(theme.border),
+        input_bg: normalize_color(&theme.input_bg).unwrap_or(theme.input_bg),
+        text: normalize_color(&theme.text).unwrap_or(theme.text),
+        text_dim: normalize_color(&theme.text_dim).unwrap_or(theme.text_dim),
+        highlight: normalize_color(&theme.highlight).unwrap_or(theme.highlight),
+        highlight_text: normalize_color(&theme.highlight_text).unwrap_or(theme.highlight_text),
     }
 }
 
@@ -153,8 +261,9 @@ fn fallback_theme_id_for(theme_id: &str) -> &'static str {
 }
 
 fn sanitize_theme(theme_id: &str, theme: ThemePreset) -> ThemePreset {
-    let fallback =
-        built_in_theme(fallback_theme_id_for(theme_id)).expect("fallback theme must exist");
+    let fallback = normalize_theme(
+        built_in_theme(fallback_theme_id_for(theme_id)).expect("fallback theme must exist"),
+    );
 
     ThemePreset {
         id: theme.id,
@@ -174,169 +283,169 @@ fn built_in_theme(id: &str) -> Option<ThemePreset> {
         "violet_dark" => ThemePreset {
             id: "violet_dark".to_string(),
             name: "Violet Dark".to_string(),
-            window_bg: "#1e1e2e".to_string(),
-            border: "#313244".to_string(),
-            input_bg: "#313244".to_string(),
-            text: "#cdd6f4".to_string(),
-            text_dim: "#a6adc8".to_string(),
-            highlight: "#a970ff".to_string(),
-            highlight_text: "#000000".to_string(),
+            window_bg: "rgba(30, 30, 46, 1.0)".to_string(),
+            border: "rgba(49, 50, 68, 1.0)".to_string(),
+            input_bg: "rgba(49, 50, 68, 1.0)".to_string(),
+            text: "rgba(205, 214, 244, 1.0)".to_string(),
+            text_dim: "rgba(166, 173, 200, 1.0)".to_string(),
+            highlight: "rgba(169, 112, 255, 1.0)".to_string(),
+            highlight_text: "rgba(0, 0, 0, 1.0)".to_string(),
         },
 
         "rose_dark" => ThemePreset {
             id: "rose_dark".to_string(),
             name: "Rose Dark".to_string(),
-            window_bg: "#221b24".to_string(),
-            border: "#3a2c3c".to_string(),
-            input_bg: "#3a2c3c".to_string(),
-            text: "#f2d9e6".to_string(),
-            text_dim: "#c9a9bb".to_string(),
-            highlight: "#ff79c6".to_string(),
-            highlight_text: "#000000".to_string(),
+            window_bg: "rgba(34, 27, 36, 1.0)".to_string(),
+            border: "rgba(58, 44, 60, 1.0)".to_string(),
+            input_bg: "rgba(58, 44, 60, 1.0)".to_string(),
+            text: "rgba(242, 217, 230, 1.0)".to_string(),
+            text_dim: "rgba(201, 169, 187, 1.0)".to_string(),
+            highlight: "rgba(255, 121, 198, 1.0)".to_string(),
+            highlight_text: "rgba(0, 0, 0, 1.0)".to_string(),
         },
 
         "blue_dark" => ThemePreset {
             id: "blue_dark".to_string(),
             name: "Blue Dark".to_string(),
-            window_bg: "#1b1f2b".to_string(),
-            border: "#2f364a".to_string(),
-            input_bg: "#2f364a".to_string(),
-            text: "#d6e0ff".to_string(),
-            text_dim: "#9aa6c8".to_string(),
-            highlight: "#6aa9ff".to_string(),
-            highlight_text: "#000000".to_string(),
+            window_bg: "rgba(27, 31, 43, 1.0)".to_string(),
+            border: "rgba(47, 54, 74, 1.0)".to_string(),
+            input_bg: "rgba(47, 54, 74, 1.0)".to_string(),
+            text: "rgba(214, 224, 255, 1.0)".to_string(),
+            text_dim: "rgba(154, 166, 200, 1.0)".to_string(),
+            highlight: "rgba(106, 169, 255, 1.0)".to_string(),
+            highlight_text: "rgba(0, 0, 0, 1.0)".to_string(),
         },
 
         "green_dark" => ThemePreset {
             id: "green_dark".to_string(),
             name: "Green Dark".to_string(),
-            window_bg: "#1a231f".to_string(),
-            border: "#2f3f38".to_string(),
-            input_bg: "#2f3f38".to_string(),
-            text: "#d9f2e4".to_string(),
-            text_dim: "#9ec8b3".to_string(),
-            highlight: "#6ee7a2".to_string(),
-            highlight_text: "#11111b".to_string(),
+            window_bg: "rgba(26, 35, 31, 1.0)".to_string(),
+            border: "rgba(47, 63, 56, 1.0)".to_string(),
+            input_bg: "rgba(47, 63, 56, 1.0)".to_string(),
+            text: "rgba(217, 242, 228, 1.0)".to_string(),
+            text_dim: "rgba(158, 200, 179, 1.0)".to_string(),
+            highlight: "rgba(110, 231, 162, 1.0)".to_string(),
+            highlight_text: "rgba(17, 17, 27, 1.0)".to_string(),
         },
 
         "yellow_dark" => ThemePreset {
             id: "yellow_dark".to_string(),
             name: "Yellow Dark".to_string(),
-            window_bg: "#262217".to_string(),
-            border: "#403726".to_string(),
-            input_bg: "#403726".to_string(),
-            text: "#f2e9c9".to_string(),
-            text_dim: "#c8b88e".to_string(),
-            highlight: "#ffd166".to_string(),
-            highlight_text: "#11111b".to_string(),
+            window_bg: "rgba(38, 34, 23, 1.0)".to_string(),
+            border: "rgba(64, 55, 38, 1.0)".to_string(),
+            input_bg: "rgba(64, 55, 38, 1.0)".to_string(),
+            text: "rgba(242, 233, 201, 1.0)".to_string(),
+            text_dim: "rgba(200, 184, 142, 1.0)".to_string(),
+            highlight: "rgba(255, 209, 102, 1.0)".to_string(),
+            highlight_text: "rgba(17, 17, 27, 1.0)".to_string(),
         },
 
         "red_dark" => ThemePreset {
             id: "red_dark".to_string(),
             name: "Red Dark".to_string(),
-            window_bg: "#26181a".to_string(),
-            border: "#402628".to_string(),
-            input_bg: "#402628".to_string(),
-            text: "#f2d6d8".to_string(),
-            text_dim: "#c89a9e".to_string(),
-            highlight: "#ff6b6b".to_string(),
-            highlight_text: "#11111b".to_string(),
+            window_bg: "rgba(38, 24, 26, 1.0)".to_string(),
+            border: "rgba(64, 38, 40, 1.0)".to_string(),
+            input_bg: "rgba(64, 38, 40, 1.0)".to_string(),
+            text: "rgba(242, 214, 216, 1.0)".to_string(),
+            text_dim: "rgba(200, 154, 158, 1.0)".to_string(),
+            highlight: "rgba(255, 107, 107, 1.0)".to_string(),
+            highlight_text: "rgba(17, 17, 27, 1.0)".to_string(),
         },
 
         "graphite_dark" => ThemePreset {
             id: "graphite_dark".to_string(),
             name: "Graphite Dark".to_string(),
-            window_bg: "#2e3440".to_string(),
-            border: "#434c5e".to_string(),
-            input_bg: "#3b4252".to_string(),
-            text: "#eceff4".to_string(),
-            text_dim: "#d8dee9".to_string(),
-            highlight: "#88c0d0".to_string(),
-            highlight_text: "#2e3440".to_string(),
+            window_bg: "rgba(46, 52, 64, 1.0)".to_string(),
+            border: "rgba(67, 76, 94, 1.0)".to_string(),
+            input_bg: "rgba(59, 66, 82, 1.0)".to_string(),
+            text: "rgba(236, 239, 244, 1.0)".to_string(),
+            text_dim: "rgba(216, 222, 233, 1.0)".to_string(),
+            highlight: "rgba(136, 192, 208, 1.0)".to_string(),
+            highlight_text: "rgba(46, 52, 64, 1.0)".to_string(),
         },
 
         "violet_light" => ThemePreset {
             id: "violet_light".to_string(),
             name: "Violet Light".to_string(),
-            window_bg: "#f3e8ff".to_string(),
-            border: "#d9c4ff".to_string(),
-            input_bg: "#e6d5ff".to_string(),
-            text: "#2b1a44".to_string(),
-            text_dim: "#6a4f9c".to_string(),
-            highlight: "#a970ff".to_string(),
-            highlight_text: "#ffffff".to_string(),
+            window_bg: "rgba(243, 232, 255, 1.0)".to_string(),
+            border: "rgba(217, 196, 255, 1.0)".to_string(),
+            input_bg: "rgba(230, 213, 255, 1.0)".to_string(),
+            text: "rgba(43, 26, 68, 1.0)".to_string(),
+            text_dim: "rgba(106, 79, 156, 1.0)".to_string(),
+            highlight: "rgba(169, 112, 255, 1.0)".to_string(),
+            highlight_text: "rgba(255, 255, 255, 1.0)".to_string(),
         },
 
         "rose_light" => ThemePreset {
             id: "rose_light".to_string(),
             name: "Rose Light".to_string(),
-            window_bg: "#fff0f6".to_string(),
-            border: "#f3c4d9".to_string(),
-            input_bg: "#f7d8e7".to_string(),
-            text: "#3a1f2e".to_string(),
-            text_dim: "#7c5a6a".to_string(),
-            highlight: "#ff79c6".to_string(),
-            highlight_text: "#2e3440".to_string(),
+            window_bg: "rgba(255, 240, 246, 1.0)".to_string(),
+            border: "rgba(243, 196, 217, 1.0)".to_string(),
+            input_bg: "rgba(247, 216, 231, 1.0)".to_string(),
+            text: "rgba(58, 31, 46, 1.0)".to_string(),
+            text_dim: "rgba(124, 90, 106, 1.0)".to_string(),
+            highlight: "rgba(255, 121, 198, 1.0)".to_string(),
+            highlight_text: "rgba(46, 52, 64, 1.0)".to_string(),
         },
 
         "blue_light" => ThemePreset {
             id: "blue_light".to_string(),
             name: "Blue Light".to_string(),
-            window_bg: "#eef3ff".to_string(),
-            border: "#cfd9ff".to_string(),
-            input_bg: "#dde6ff".to_string(),
-            text: "#1e2a44".to_string(),
-            text_dim: "#5c6c99".to_string(),
-            highlight: "#4f8cff".to_string(),
-            highlight_text: "#ffffff".to_string(),
+            window_bg: "rgba(238, 243, 255, 1.0)".to_string(),
+            border: "rgba(207, 217, 255, 1.0)".to_string(),
+            input_bg: "rgba(221, 230, 255, 1.0)".to_string(),
+            text: "rgba(30, 42, 68, 1.0)".to_string(),
+            text_dim: "rgba(92, 108, 153, 1.0)".to_string(),
+            highlight: "rgba(79, 140, 255, 1.0)".to_string(),
+            highlight_text: "rgba(255, 255, 255, 1.0)".to_string(),
         },
 
         "green_light" => ThemePreset {
             id: "green_light".to_string(),
             name: "Green Light".to_string(),
-            window_bg: "#ecfdf5".to_string(),
-            border: "#b7e4d1".to_string(),
-            input_bg: "#d4f5e7".to_string(),
-            text: "#1d3b2f".to_string(),
-            text_dim: "#4e7c69".to_string(),
-            highlight: "#34d399".to_string(),
-            highlight_text: "#2e3440".to_string(),
+            window_bg: "rgba(236, 253, 245, 1.0)".to_string(),
+            border: "rgba(183, 228, 209, 1.0)".to_string(),
+            input_bg: "rgba(212, 245, 231, 1.0)".to_string(),
+            text: "rgba(29, 59, 47, 1.0)".to_string(),
+            text_dim: "rgba(78, 124, 105, 1.0)".to_string(),
+            highlight: "rgba(52, 211, 153, 1.0)".to_string(),
+            highlight_text: "rgba(46, 52, 64, 1.0)".to_string(),
         },
 
         "yellow_light" => ThemePreset {
             id: "yellow_light".to_string(),
             name: "Yellow Light".to_string(),
-            window_bg: "#fff8e6".to_string(),
-            border: "#f3e2a9".to_string(),
-            input_bg: "#f9efc8".to_string(),
-            text: "#3b3213".to_string(),
-            text_dim: "#7a6a2e".to_string(),
-            highlight: "#ffc857".to_string(),
-            highlight_text: "#2e3440".to_string(),
+            window_bg: "rgba(255, 248, 230, 1.0)".to_string(),
+            border: "rgba(243, 226, 169, 1.0)".to_string(),
+            input_bg: "rgba(249, 239, 200, 1.0)".to_string(),
+            text: "rgba(59, 50, 19, 1.0)".to_string(),
+            text_dim: "rgba(122, 106, 46, 1.0)".to_string(),
+            highlight: "rgba(255, 200, 87, 1.0)".to_string(),
+            highlight_text: "rgba(46, 52, 64, 1.0)".to_string(),
         },
 
         "red_light" => ThemePreset {
             id: "red_light".to_string(),
             name: "Red Light".to_string(),
-            window_bg: "#fff1f2".to_string(),
-            border: "#f7c5c8".to_string(),
-            input_bg: "#ffd8db".to_string(),
-            text: "#3d1c20".to_string(),
-            text_dim: "#7f4a50".to_string(),
-            highlight: "#ff5d5d".to_string(),
-            highlight_text: "#2e3440".to_string(),
+            window_bg: "rgba(255, 241, 242, 1.0)".to_string(),
+            border: "rgba(247, 197, 200, 1.0)".to_string(),
+            input_bg: "rgba(255, 216, 219, 1.0)".to_string(),
+            text: "rgba(61, 28, 32, 1.0)".to_string(),
+            text_dim: "rgba(127, 74, 80, 1.0)".to_string(),
+            highlight: "rgba(255, 93, 93, 1.0)".to_string(),
+            highlight_text: "rgba(46, 52, 64, 1.0)".to_string(),
         },
 
         "graphite_light" => ThemePreset {
             id: "graphite_light".to_string(),
             name: "Graphite Light".to_string(),
-            window_bg: "#eceff4".to_string(),
-            border: "#d8dee9".to_string(),
-            input_bg: "#e5e9f0".to_string(),
-            text: "#2e3440".to_string(),
-            text_dim: "#4c566a".to_string(),
-            highlight: "#5e81ac".to_string(),
-            highlight_text: "#ffffff".to_string(),
+            window_bg: "rgba(236, 239, 244, 1.0)".to_string(),
+            border: "rgba(216, 222, 233, 1.0)".to_string(),
+            input_bg: "rgba(229, 233, 240, 1.0)".to_string(),
+            text: "rgba(46, 52, 64, 1.0)".to_string(),
+            text_dim: "rgba(76, 86, 106, 1.0)".to_string(),
+            highlight: "rgba(94, 129, 172, 1.0)".to_string(),
+            highlight_text: "rgba(255, 255, 255, 1.0)".to_string(),
         },
 
         _ => return None,
@@ -369,7 +478,7 @@ pub fn theme_display_name(id: &str) -> String {
 
     built_in_theme(id)
         .map(|t| t.name)
-        .unwrap_or_else(|| "Violet Dark".to_string())
+        .unwrap_or_else(|| "Graphite Dark".to_string())
 }
 
 pub fn get_theme_preset(id: &str) -> ThemePreset {
@@ -378,7 +487,9 @@ pub fn get_theme_preset(id: &str) -> ThemePreset {
         return sanitize_theme(id, preset);
     }
 
-    built_in_theme(id).unwrap_or_else(|| {
-        built_in_theme("violet_dark").expect("built-in violet_dark theme must exist")
+    built_in_theme(id).map(normalize_theme).unwrap_or_else(|| {
+        normalize_theme(
+            built_in_theme("violet_dark").expect("built-in violet_dark theme must exist"),
+        )
     })
 }

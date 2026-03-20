@@ -7,115 +7,212 @@ ApplicationWindow {
     id: win
 
     property int collapsedWidth: backend.window_width
-    property int expandedWidth: backend.window_editor_width
     property int baseHeight: backend.window_height
+    readonly property int contentMargin: 18
     readonly property int paneGap: 18
-    readonly property int leftPaneWidth: 444
-    readonly property int editorTargetWidth: expandedWidth - collapsedWidth - paneGap
-
-    property int editorWidth: backend.is_themes_mode && backend.editor_open ? editorTargetWidth : 0
+    readonly property int editorPanelWidth: 480
+    readonly property int leftPaneWidth: Math.max(320, collapsedWidth - contentMargin * 2)
+    readonly property int themesWindowWidth: collapsedWidth + paneGap + editorPanelWidth
 
     readonly property int windowRadius: backend.ui_window_radius
     readonly property int panelRadius: backend.ui_search_bar_radius
     readonly property int selectorRadius: backend.ui_selector_radius
     readonly property int buttonRadius: Math.max(8, Math.round(panelRadius * 0.5))
     readonly property int editorInnerRadius: Math.max(10, panelRadius)
-
     readonly property int wheelStepAngle: 120
-    property bool editorAnimating: false
 
-    width: collapsedWidth + editorWidth + (editorWidth > 0 ? paneGap : 0)
+    property bool launcherVisibleState: !backend.resident_mode
+    property bool suppressInactiveClose: false
+    property bool closeShouldQuit: false
+    property bool closeShouldClearQuery: true
+    property int listAnimationToken: 0
+
+    width: backend.is_themes_mode ? themesWindowWidth : collapsedWidth
     height: baseHeight
-    visible: !backend.resident_mode
+    visible: launcherVisibleState
     color: "transparent"
     flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool
 
     minimumHeight: baseHeight
     maximumHeight: baseHeight
-    minimumWidth: editorAnimating ? collapsedWidth : width
-    maximumWidth: editorAnimating ? expandedWidth   : width
-
-    Behavior on editorWidth {
-        NumberAnimation {
-            duration: 260
-            easing.type: Easing.OutCubic
-            onRunningChanged: win.editorAnimating = running
-        }
-    }
+    minimumWidth: backend.is_themes_mode ? themesWindowWidth : collapsedWidth
+    maximumWidth: backend.is_themes_mode ? themesWindowWidth : collapsedWidth
 
     Backend {
         id: backend
     }
 
-    function focusSearchField() {
-        field.forceActiveFocus()
-        field.cursorPosition = field.text.length
-    }
+    Component.onCompleted: {
+        x = Math.round((Screen.width - collapsedWidth) / 2)
+        y = Math.round((Screen.height - height) / 5)
 
-    function focusEditor() {
-        editorArea.forceActiveFocus()
-        editorArea.cursorPosition = editorArea.length
-    }
+        if (launcherVisibleState)
+            Qt.callLater(function() { win.listAnimationToken += 1 })
 
-    function hideLauncher() {
-        field.text = ""
-        backend.set_query("")
-        hide()
-    }
-
-    function showLauncher() {
-        show()
-        raise()
-        requestActivate()
-        Qt.callLater(function() { win.focusSearchField() })
-    }
-
-    function handleCloseRequest() {
-        if (backend.resident_mode) {
-            hideLauncher()
-        } else {
-            if (backend.is_themes_mode)
-                backend.save_selected_theme()
-            Qt.quit()
+        if (!backend.resident_mode) {
+            suppressInactiveClose = true
+            inactiveCloseGuard.restart()
+            requestActivate()
+            Qt.callLater(function() {
+                win.scheduleBlurSync()
+                win.focusSearchField()
+            })
         }
     }
 
+    Timer {
+        id: inactiveCloseGuard
+        interval: 220
+        repeat: false
+        onTriggered: win.suppressInactiveClose = false
+    }
+
+    Timer {
+        id: blurSyncTimer
+        interval: 0
+        repeat: false
+        onTriggered: {
+            if (win.launcherVisibleState)
+                backend.sync_window_blur(win.windowRadius)
+        }
+    }
+
+    function focusSearchField() {
+        searchBar.focusField()
+    }
+
+    function scheduleBlurSync() {
+        blurSyncTimer.restart()
+    }
+
+    function clearSearch() {
+        searchBar.text = ""
+        backend.set_query("")
+    }
+
+    function closeLauncher(quitAfterClose, clearQueryAfterClose) {
+        closeShouldQuit = quitAfterClose === true
+        closeShouldClearQuery = clearQueryAfterClose !== false
+        suppressInactiveClose = true
+        inactiveCloseGuard.stop()
+
+        if (!launcherVisibleState) {
+            if (closeShouldQuit)
+                Qt.quit()
+            return
+        }
+
+        launcherVisibleState = false
+
+        if (closeShouldClearQuery)
+            clearSearch()
+
+        const shouldQuit = closeShouldQuit
+        closeShouldQuit = false
+        closeShouldClearQuery = true
+
+        if (shouldQuit)
+            Qt.quit()
+    }
+
+    function showLauncher() {
+        if (launcherVisibleState) {
+            raise()
+            requestActivate()
+            suppressInactiveClose = true
+            inactiveCloseGuard.restart()
+            Qt.callLater(function() { win.focusSearchField() })
+            return
+        }
+
+        closeShouldQuit = false
+        closeShouldClearQuery = true
+        launcherVisibleState = true
+        listAnimationToken += 1
+        show()
+        raise()
+        requestActivate()
+        suppressInactiveClose = true
+        inactiveCloseGuard.restart()
+        Qt.callLater(function() {
+            win.scheduleBlurSync()
+            win.focusSearchField()
+        })
+    }
+
+    function handleCloseRequest() {
+        if (backend.is_themes_mode) {
+            backend.save_selected_theme()
+            clearSearch()
+            backend.return_to_apps_mode()
+            Qt.callLater(function() { win.focusSearchField() })
+            return
+        }
+
+        if (backend.resident_mode)
+            closeLauncher(false, true)
+        else
+            closeLauncher(true, true)
+    }
+
+    function handleInactiveCloseRequest() {
+        if (backend.is_themes_mode) {
+            backend.save_selected_theme()
+            clearSearch()
+            backend.return_to_apps_mode()
+        }
+
+        if (backend.resident_mode)
+            closeLauncher(false, true)
+        else
+            closeLauncher(true, true)
+    }
+
     function launchAndHide() {
+        if (backend.is_theme_command_index(backend.current_index)) {
+            clearSearch()
+            backend.enter_themes_mode()
+            editorPane.syncEditorFromBackend()
+            Qt.callLater(function() { win.focusSearchField() })
+            return
+        }
+
         if (backend.is_themes_mode) {
             backend.launch_current()
             return
         }
 
         const searchLaunch = backend.is_search_index(backend.current_index)
-        if (!searchLaunch)
-            hide()
-
         backend.launch_current()
 
         const closeAfterLaunch = function() {
-            if (backend.resident_mode) {
-                field.text = ""
-                if (searchLaunch)
-                    hide()
-            } else {
-                Qt.quit()
-            }
+            if (backend.resident_mode)
+                closeLauncher(false, true)
+            else
+                closeLauncher(true, true)
         }
 
-        if (searchLaunch) {
+        if (searchLaunch)
             Qt.callLater(closeAfterLaunch)
-        } else {
+        else
             closeAfterLaunch()
-        }
     }
 
     onActiveChanged: {
-        if (visible && !active) {
+        if (visible && !active && !suppressInactiveClose) {
             Qt.callLater(function() {
-                if (win.visible && !win.active)
-                    handleCloseRequest()
+                if (win.visible && !win.active && !win.suppressInactiveClose)
+                    handleInactiveCloseRequest()
             })
         }
+    }
+
+    onWidthChanged: scheduleBlurSync()
+    onHeightChanged: scheduleBlurSync()
+    onWindowRadiusChanged: scheduleBlurSync()
+    onVisibleChanged: {
+        if (visible)
+            scheduleBlurSync()
     }
 
     Timer {
@@ -126,8 +223,8 @@ ApplicationWindow {
             const command = backend.poll_resident_command()
             if (command === 1)
                 win.showLauncher()
-                else if (command === 2)
-                    win.hideLauncher()
+            else if (command === 2)
+                win.closeLauncher(false, true)
         }
     }
 
@@ -149,623 +246,62 @@ ApplicationWindow {
         }
 
         Item {
-            id: content
             anchors.fill: parent
-            anchors.margins: 18
+            anchors.margins: win.contentMargin
 
             Item {
                 id: leftPane
                 x: 0
                 y: 0
-                width: leftPaneWidth
+                width: win.leftPaneWidth
                 height: parent.height
 
                 Column {
                     anchors.fill: parent
                     spacing: 14
 
-                    Rectangle {
+                    SearchBar {
                         id: searchBar
                         width: parent.width
                         height: 52
-                        radius: win.panelRadius
-                        color: backend.theme_input_bg
-                        border.color: backend.theme_border
-                        border.width: 1
-
-                        Behavior on color {
-                            ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
-                        }
-
-                        Behavior on border.color {
-                            ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
-                        }
-
-                        Item {
-                            anchors.fill: parent
-                            anchors.leftMargin: 10
-                            anchors.rightMargin: 10
-
-                            TextField {
-                                id: field
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
-                                anchors.right: editorButton.visible ? editorButton.left : parent.right
-                                anchors.rightMargin: editorButton.visible ? 10 : 0
-                                anchors.verticalCenter: parent.verticalCenter
-                                height: parent.height
-                                color: backend.theme_text
-                                placeholderText: backend.is_themes_mode ? "Theme search..." : "Search..."
-                                placeholderTextColor: backend.theme_text_dim
-                                font.pixelSize: 18
-                                background: null
-                                focus: true
-                                selectByMouse: true
-                                onTextChanged: backend.set_query(text)
-                                cursorVisible: true
-
-                                Keys.onDownPressed: function(event) {
-                                    backend.move_down()
-                                    event.accepted = true
-                                }
-                                Keys.onUpPressed: function(event) {
-                                    backend.move_up()
-                                    event.accepted = true
-                                }
-                                Keys.onReturnPressed: function(event) {
-                                    launchAndHide()
-                                    event.accepted = true
-                                }
-                                Keys.onEnterPressed: function(event) {
-                                    launchAndHide()
-                                    event.accepted = true
-                                }
-                                Keys.onEscapePressed: function(event) {
-                                    win.handleCloseRequest()
-                                    event.accepted = true
-                                }
-
-                                Behavior on color {
-                                    ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
-                                }
-
-                                Behavior on placeholderTextColor {
-                                    ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
-                                }
-                            }
-
-                            Rectangle {
-                                id: editorButton
-                                anchors.right: parent.right
-                                anchors.verticalCenter: parent.verticalCenter
-                                width: 30
-                                height: 30
-                                radius: win.buttonRadius
-                                visible: backend.is_themes_mode
-                                color: editorButtonArea.containsMouse
-                                ? Qt.lighter(backend.theme_input_bg, 1.12)
-                                : backend.theme_window_bg
-                                border.color: backend.editor_open ? backend.theme_highlight : backend.theme_border
-                                border.width: backend.editor_open ? 2 : 1
-
-                                Behavior on color {
-                                    ColorAnimation { duration: 140; easing.type: Easing.OutCubic }
-                                }
-
-                                Behavior on border.color {
-                                    ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
-                                }
-
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: backend.editor_open ? "×" : "✎"
-                                    color: backend.editor_open ? backend.theme_highlight : backend.theme_text_dim
-                                    font.pixelSize: 17
-                                    font.bold: true
-
-                                    Behavior on color {
-                                        ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
-                                    }
-                                }
-
-                                MouseArea {
-                                    id: editorButtonArea
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: {
-                                        backend.toggle_editor()
-                                        if (backend.editor_open) {
-                                            editorArea.text = backend.themes_file_text
-                                            Qt.callLater(function() { win.focusEditor() })
-                                        } else {
-                                            Qt.callLater(function() { win.focusSearchField() })
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        backend: backend
+                        panelRadius: win.panelRadius
+                        onLaunchRequested: win.launchAndHide()
+                        onCloseRequested: win.handleCloseRequest()
                     }
 
                     Item {
                         width: parent.width
                         height: parent.height - searchBar.height - 14
 
-                        ListView {
-                            id: list
+                        EntryList {
                             anchors.fill: parent
-                            model: backend.items
-                            spacing: 8
-                            clip: true
-                            currentIndex: backend.current_index
-                            interactive: false
-                            visible: count > 0
-
-                            readonly property int rowHeight: 28
-                            readonly property int rowStep: rowHeight + spacing
-                            property real targetContentY: 0
-
-                            function indexFromViewY(yPos) {
-                                const contentPos = yPos + contentY
-                                const idx = Math.floor(contentPos / rowStep)
-                                if (idx < 0 || idx >= count)
-                                    return -1
-                                    return idx
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                acceptedButtons: Qt.LeftButton
-                                z: 20
-
-                                property real wheelAccumulator: 0
-
-                                onClicked: function(mouse) {
-                                    const idx = list.indexFromViewY(mouse.y)
-
-                                    if (idx < 0) {
-                                        return
-                                    }
-
-                                    if (backend.current_index === idx) {
-                                        launchAndHide()
-                                    } else {
-                                        backend.select_index(idx)
-                                        win.focusSearchField()
-                                    }
-                                }
-
-                                onWheel: function(wheel) {
-                                    wheelAccumulator += wheel.angleDelta.y
-
-                                    while (wheelAccumulator <= -win.wheelStepAngle) {
-                                        backend.move_down()
-                                        wheelAccumulator += win.wheelStepAngle
-                                    }
-
-                                    while (wheelAccumulator >= win.wheelStepAngle) {
-                                        backend.move_up()
-                                        wheelAccumulator -= win.wheelStepAngle
-                                    }
-
-                                    wheel.accepted = true
-                                }
-                            }
-
-                            Behavior on targetContentY {
-                                NumberAnimation {
-                                    duration: 220
-                                    easing.type: Easing.OutCubic
-                                }
-                            }
-
-                            onTargetContentYChanged: contentY = targetContentY
-
-                            Rectangle {
-                                id: highlight
-                                z: -1
-                                visible: list.currentIndex >= 0
-                                x: 0
-                                width: list.width
-                                height: list.rowHeight
-                                radius: win.selectorRadius
-                                color: backend.theme_highlight
-
-                                y: {
-                                    if (!list.currentItem)
-                                        return 0
-
-                                        const rawY = list.currentItem.y - list.contentY
-                                        const maxY = Math.max(0, list.height - height)
-
-                                        if (rawY < 0)
-                                            return 0
-                                            if (rawY > maxY)
-                                                return maxY
-                                                return rawY
-                                }
-
-                                Behavior on color {
-                                    ColorAnimation {
-                                        duration: 200
-                                        easing.type: Easing.OutCubic
-                                    }
-                                }
-
-                                Behavior on y {
-                                    SpringAnimation {
-                                        spring: 5
-                                        damping: 0.34
-                                    }
-                                }
-                            }
-
-                            delegate: Item {
-                                id: rowItem
-
-                                width: list.width
-                                height: list.rowHeight
-
-                                property real itemTopInView: y - list.contentY
-                                property real itemBottomInView: itemTopInView + height
-                                property real itemCenterInView: (itemTopInView + itemBottomInView) / 2
-
-                                property real highlightTop: highlight.y
-                                property real highlightBottom: highlight.y + highlight.height
-
-                                property bool visuallySelected: itemCenterInView >= highlightTop
-                                && itemCenterInView <= highlightBottom
-
-                                Row {
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.left: parent.left
-                                    anchors.leftMargin: 14
-                                    spacing: backend.is_themes_mode ? 12 : 0
-
-                                    Item {
-                                        width: backend.is_themes_mode ? 12 : 0
-                                        height: 20
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        visible: backend.is_themes_mode
-
-                                        readonly property string previewColor: (
-                                            index >= 0 && index < backend.preview_colors.length
-                                            ? backend.preview_colors[index]
-                                            : ""
-                                        )
-
-                                        Rectangle {
-                                            width: 12
-                                            height: 12
-                                            radius: 6
-                                            anchors.centerIn: parent
-                                            visible: parent.previewColor !== ""
-                                            color: parent.previewColor
-                                            border.width: 1
-                                            border.color: Qt.rgba(0, 0, 0, 0.18)
-                                        }
-                                    }
-
-                                    Item {
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        width: searchLabel.visible
-                                            ? searchLabel.implicitWidth + searchQueryLabel.implicitWidth
-                                            : defaultLabel.implicitWidth
-                                        height: Math.max(defaultLabel.implicitHeight, searchLabel.implicitHeight)
-
-                                        readonly property color rowColor: rowItem.visuallySelected
-                                            ? backend.theme_highlight_text
-                                            : backend.theme_text
-                                        readonly property bool searchEntry: backend.is_search_index(index)
-
-                                        Text {
-                                            id: defaultLabel
-                                            visible: !parent.searchEntry
-                                            text: modelData
-                                            font.pixelSize: 17
-                                            color: parent.rowColor
-                                        }
-
-                                        Text {
-                                            id: searchLabel
-                                            visible: parent.searchEntry
-                                            text: "Search"
-                                            font.pixelSize: 17
-                                            color: parent.rowColor
-                                            opacity: 0.56
-                                        }
-
-                                        Text {
-                                            id: searchQueryLabel
-                                            visible: parent.searchEntry
-                                            anchors.left: searchLabel.right
-                                            text: backend.current_text !== "" ? " " + backend.current_text : ""
-                                            font.pixelSize: 17
-                                            color: parent.rowColor
-                                        }
-                                    }
-                                }
-
-                                Rectangle {
-                                    width: 8
-                                    height: 8
-                                    radius: 4
-                                    anchors.right: parent.right
-                                    anchors.rightMargin: 18
-                                    anchors.verticalCenter: parent.verticalCenter
-
-                                    visible: backend.is_themes_mode
-                                    && backend.applied_theme_id !== ""
-                                    && backend.is_applied_theme_index(index)
-
-                                    color: rowItem.visuallySelected
-                                    ? backend.theme_highlight_text
-                                    : backend.theme_text_dim
-                                }
-                            }
-
-                            onCurrentIndexChanged: {
-                                if (currentIndex < 0 || !currentItem)
-                                    return
-
-                                    const itemTop = currentItem.y
-                                    const itemBottom = itemTop + rowHeight
-
-                                    const viewTop = contentY
-                                    const viewBottom = contentY + height
-
-                                    let nextY = contentY
-
-                                    if (itemTop < viewTop) {
-                                        nextY = itemTop
-                                    } else if (itemBottom > viewBottom) {
-                                        nextY = itemBottom - height
-                                    }
-
-                                    const maxY = Math.max(0, contentHeight - height)
-                                    targetContentY = Math.max(0, Math.min(nextY, maxY))
-                            }
+                            backend: backend
+                            selectorRadius: win.selectorRadius
+                            wheelStepAngle: win.wheelStepAngle
+                            animationToken: win.listAnimationToken
+                            onLaunchRequested: win.launchAndHide()
+                            onFocusSearchRequested: win.focusSearchField()
                         }
-
                     }
                 }
             }
 
-            Rectangle {
+            ThemeEditorPane {
                 id: editorPane
-                x: leftPane.width + (editorWidth > 0 ? paneGap : 0)
+                x: leftPane.width + win.paneGap
                 y: 0
-                width: editorWidth
+                width: win.editorPanelWidth
                 height: parent.height
-                radius: win.windowRadius
-                clip: true
-                visible: width > 1
-                color: backend.theme_input_bg
-                border.color: backend.theme_border
-                border.width: 1
-                opacity: Math.min(1, width / 80)
-
-                Behavior on color {
-                    ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
-                }
-
-                Behavior on border.color {
-                    ColorAnimation { duration: 200; easing.type: Easing.OutCubic }
-                }
-
-                Behavior on opacity {
-                    NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
-                }
-
-                Column {
-                    anchors.fill: parent
-                    anchors.margins: 14
-                    spacing: 10
-
-                    RowLayout {
-                        width: parent.width
-                        height: 28
-                        spacing: 8
-
-                        Item {
-                            Layout.fillWidth: true
-                        }
-
-                        Rectangle {
-                            id: themesTabButton
-                            radius: win.buttonRadius
-                            Layout.preferredWidth: 36
-                            Layout.preferredHeight: 28
-                            Layout.alignment: Qt.AlignVCenter
-                            color: !backend.editor_is_config ? backend.theme_highlight : backend.theme_window_bg
-                            border.color: !backend.editor_is_config ? backend.theme_highlight : backend.theme_border
-                            border.width: 1
-
-                            Behavior on color {
-                                ColorAnimation { duration: 180; easing.type: Easing.OutCubic }
-                            }
-                            Behavior on border.color {
-                                ColorAnimation { duration: 180; easing.type: Easing.OutCubic }
-                            }
-
-                            Text {
-                                anchors.centerIn: parent
-                                text: "\uD83C\uDFA8"
-                                color: !backend.editor_is_config ? backend.theme_highlight_text : backend.theme_text
-                                font.pixelSize: 15
-
-                                Behavior on color {
-                                    ColorAnimation { duration: 180; easing.type: Easing.OutCubic }
-                                }
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    backend.set_editor_file(false)
-                                    editorArea.text = backend.themes_file_text
-                                    Qt.callLater(function() { win.focusEditor() })
-                                }
-                            }
-                        }
-
-                        Rectangle {
-                            id: configTabButton
-                            radius: win.buttonRadius
-                            Layout.preferredWidth: 36
-                            Layout.preferredHeight: 28
-                            Layout.alignment: Qt.AlignVCenter
-                            color: backend.editor_is_config ? backend.theme_highlight : backend.theme_window_bg
-                            border.color: backend.editor_is_config ? backend.theme_highlight : backend.theme_border
-                            border.width: 1
-
-                            Behavior on color {
-                                ColorAnimation { duration: 180; easing.type: Easing.OutCubic }
-                            }
-                            Behavior on border.color {
-                                ColorAnimation { duration: 180; easing.type: Easing.OutCubic }
-                            }
-
-                            Text {
-                                anchors.centerIn: parent
-                                text: "\uD83D\uDD27"
-                                color: backend.editor_is_config ? backend.theme_highlight_text : backend.theme_text
-                                font.pixelSize: 15
-
-                                Behavior on color {
-                                    ColorAnimation { duration: 180; easing.type: Easing.OutCubic }
-                                }
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    backend.set_editor_file(true)
-                                    editorArea.text = backend.themes_file_text
-                                    Qt.callLater(function() { win.focusEditor() })
-                                }
-                            }
-                        }
-
-                        Rectangle {
-                            id: reloadButton
-                            radius: win.buttonRadius
-                            Layout.preferredWidth: 72
-                            Layout.preferredHeight: 28
-                            Layout.alignment: Qt.AlignVCenter
-                            color: backend.theme_window_bg
-                            border.color: backend.theme_border
-                            border.width: 1
-
-                            Text {
-                                anchors.centerIn: parent
-                                text: "Reload"
-                                color: backend.theme_text
-                                font.pixelSize: 13
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    backend.load_themes_file()
-                                    editorArea.text = backend.themes_file_text
-                                    Qt.callLater(function() { win.focusEditor() })
-                                }
-                            }
-                        }
-
-                        Rectangle {
-                            id: saveButton
-                            radius: win.buttonRadius
-                            Layout.preferredWidth: 58
-                            Layout.preferredHeight: 28
-                            Layout.alignment: Qt.AlignVCenter
-                            color: backend.theme_highlight
-                            border.color: backend.theme_highlight
-                            border.width: 1
-
-                            Text {
-                                anchors.centerIn: parent
-                                text: "Save"
-                                color: backend.theme_highlight_text
-                                font.pixelSize: 13
-                                font.bold: true
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: backend.save_themes_file()
-                            }
-                        }
-                    }
-
-                    Rectangle {
-                        width: parent.width
-                        height: parent.height - 38
-                        radius: win.editorInnerRadius
-                        color: backend.theme_window_bg
-                        border.color: backend.theme_border
-                        border.width: 1
-                        clip: true
-
-                        ScrollView {
-                            anchors.fill: parent
-                            anchors.margins: 10
-                            clip: true
-                            ScrollBar.horizontal.policy: ScrollBar.AsNeeded
-                            ScrollBar.vertical.policy: ScrollBar.AsNeeded
-
-                            TextArea {
-                                id: editorArea
-                                text: ""
-                                color: backend.theme_text
-                                selectionColor: backend.theme_highlight
-                                selectedTextColor: backend.theme_highlight_text
-                                placeholderText: "[[theme]]\nid = \"my_theme_dark\"\nname = \"My Theme Dark\""
-                                placeholderTextColor: backend.theme_text_dim
-                                wrapMode: TextArea.NoWrap
-                                font.family: "monospace"
-                                font.pixelSize: 14
-                                selectByMouse: true
-                                persistentSelection: true
-                                background: null
-                                leftPadding: 0
-                                rightPadding: 0
-                                topPadding: 0
-                                bottomPadding: 0
-
-                                implicitWidth: Math.max(editorPane.width - 60, contentWidth + 20)
-                                implicitHeight: Math.max(editorPane.height - 90, contentHeight + 20)
-
-                                Keys.onEscapePressed: win.handleCloseRequest()
-
-                                Keys.onPressed: function(event) {
-                                    if ((event.modifiers & Qt.ControlModifier) && event.key === Qt.Key_S) {
-                                        backend.save_themes_file()
-                                        event.accepted = true
-                                    }
-                                }
-
-                                onTextChanged: {
-                                    if (backend.themes_file_text !== text)
-                                        backend.themes_file_text = text
-                                }
-                            }
-                        }
-                    }
-                }
+                visible: backend.is_themes_mode
+                enabled: visible
+                backend: backend
+                windowRadius: win.windowRadius
+                buttonRadius: win.buttonRadius
+                editorInnerRadius: win.editorInnerRadius
+                onCloseRequested: win.handleCloseRequest()
             }
         }
     }
 
-    Component.onCompleted: {
-        x = Math.round((Screen.width - collapsedWidth) / 2)
-        y = Math.round((Screen.height - height) / 5)
-        requestActivate()
-        focusSearchField()
-    }
 }

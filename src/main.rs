@@ -7,56 +7,48 @@ use notify::{EventKind, RecommendedWatcher, RecursiveMode, Watcher};
 use std::sync::mpsc::channel;
 use std::thread;
 
-fn watch_config_for_restart() {
+fn watch_config_for_reload() {
     thread::spawn(|| {
-        let home = std::env::var("HOME").unwrap();
-        let config_path = format!("{}/.config/smoothysearch/config.toml", home);
-        let config_path_buf = std::path::PathBuf::from(&config_path);
+        let Some(config_path_buf) = config::config_path() else {
+            return;
+        };
         let watch_dir = config_path_buf
             .parent()
             .map(|p| p.to_path_buf())
-            .unwrap_or_else(|| std::path::PathBuf::from(format!("{}/.config/smoothysearch", home)));
+            .unwrap_or_else(|| {
+                config::config_dir().unwrap_or_else(|| std::path::PathBuf::from("."))
+            });
+        let _ = std::fs::create_dir_all(&watch_dir);
 
         let (tx, rx) = channel();
 
-        let mut watcher = RecommendedWatcher::new(tx, notify::Config::default()).unwrap();
+        let mut watcher = match RecommendedWatcher::new(tx, notify::Config::default()) {
+            Ok(watcher) => watcher,
+            Err(_) => return,
+        };
 
-        watcher
+        if watcher
             .watch(&watch_dir, RecursiveMode::NonRecursive)
-            .unwrap();
+            .is_err()
+        {
+            return;
+        }
 
-        for res in rx {
-            if let Ok(event) = res {
-                let touched_config = event.paths.iter().any(|p| p == &config_path_buf);
+        for event in rx.into_iter().flatten() {
+            let touched_config = event.paths.iter().any(|p| p == &config_path_buf);
 
-                if !touched_config {
-                    continue;
+            if !touched_config {
+                continue;
+            }
+
+            match event.kind {
+                EventKind::Modify(_)
+                | EventKind::Create(_)
+                | EventKind::Remove(_)
+                | EventKind::Any => {
+                    backend::request_resident_reload_config();
                 }
-
-                match event.kind {
-                    EventKind::Modify(_)
-                    | EventKind::Create(_)
-                    | EventKind::Remove(_)
-                    | EventKind::Any => {
-                        println!("Config changed -> restarting service");
-
-                        if let Ok(exe) = std::env::current_exe() {
-                            let exe_str = exe.to_string_lossy().replace('\'', r"'\''");
-                            let cmd = format!("sleep 0.2; '{}' --service", exe_str);
-
-                            let _ = std::process::Command::new("sh")
-                                .arg("-c")
-                                .arg(cmd)
-                                .stdin(std::process::Stdio::null())
-                                .stdout(std::process::Stdio::null())
-                                .stderr(std::process::Stdio::null())
-                                .spawn();
-                        }
-
-                        std::process::exit(0);
-                    }
-                    _ => {}
-                }
+                _ => {}
             }
         }
     });
@@ -76,17 +68,15 @@ fn watch_app_dirs_invalidate_cache() {
             }
         }
 
-        for res in rx {
-            if let Ok(event) = res {
-                match event.kind {
-                    EventKind::Create(_)
-                    | EventKind::Remove(_)
-                    | EventKind::Modify(_)
-                    | EventKind::Any => {
-                        backend::invalidate_app_cache();
-                    }
-                    _ => {}
+        for event in rx.into_iter().flatten() {
+            match event.kind {
+                EventKind::Create(_)
+                | EventKind::Remove(_)
+                | EventKind::Modify(_)
+                | EventKind::Any => {
+                    backend::invalidate_app_cache();
                 }
+                _ => {}
             }
         }
     });
@@ -108,10 +98,9 @@ fn run_gui() {
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let is_service = args.iter().any(|arg| arg == "--service");
-    let is_themes = args.iter().any(|arg| arg == "--themes");
 
     if is_service {
-        watch_config_for_restart();
+        watch_config_for_reload();
         watch_app_dirs_invalidate_cache();
     }
 
@@ -119,11 +108,6 @@ fn main() {
         if !backend::acquire_resident_singleton() {
             return;
         }
-        run_gui();
-        return;
-    }
-
-    if is_themes {
         run_gui();
         return;
     }

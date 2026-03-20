@@ -1,10 +1,19 @@
 [Desktop Entry]
-Type=Application
-Name=SmoothySearch Service
+Comment[en_US]=Start SmoothySearch resident launcher service
 Comment=Start SmoothySearch resident launcher service
 Exec=smoothysearch --service
+GenericName[en_US]=
+GenericName=
 Icon=smoothysearch
-Terminal=false
+MimeType=
+Name[en_US]=SmoothySearch Service
+Name=SmoothySearch Service
 NoDisplay=true
+Path=
 StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
 X-GNOME-Autostart-enabled=true
+X-KDE-SubstituteUID=false
+X-KDE-Username=

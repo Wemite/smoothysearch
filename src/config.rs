@@ -55,9 +55,6 @@ pub struct WindowConfig {
 
     #[serde(default = "default_window_height")]
     pub height: i32,
-
-    #[serde(default = "default_editor_width")]
-    pub editor_width: i32,
 }
 
 impl Default for WindowConfig {
@@ -65,7 +62,6 @@ impl Default for WindowConfig {
         Self {
             width: default_window_width(),
             height: default_window_height(),
-            editor_width: default_editor_width(),
         }
     }
 }
@@ -93,7 +89,7 @@ impl Default for UiConfig {
 }
 
 fn default_theme_preset() -> String {
-    "violet_dark".to_string()
+    "graphite_dark".to_string()
 }
 
 fn default_window_width() -> i32 {
@@ -102,10 +98,6 @@ fn default_window_width() -> i32 {
 
 fn default_window_height() -> i32 {
     360
-}
-
-fn default_editor_width() -> i32 {
-    820
 }
 
 fn default_window_radius() -> i32 {
@@ -128,10 +120,6 @@ fn clamp_window_height(value: i32) -> i32 {
     value.clamp(240, 900)
 }
 
-fn clamp_editor_width(value: i32) -> i32 {
-    value.clamp(700, 2200)
-}
-
 fn clamp_window_radius(value: i32) -> i32 {
     value.clamp(0, 80)
 }
@@ -145,9 +133,14 @@ fn clamp_selector_radius(value: i32) -> i32 {
 }
 
 pub fn config_path() -> Option<PathBuf> {
+    let mut path = config_dir()?;
+    path.push("config.toml");
+    Some(path)
+}
+
+pub fn config_dir() -> Option<PathBuf> {
     let mut path = dirs::config_dir()?;
     path.push("smoothysearch");
-    path.push("config.toml");
     Some(path)
 }
 
@@ -173,7 +166,6 @@ pub fn load_config() -> AppConfig {
 
     cfg.window.width = clamp_window_width(cfg.window.width);
     cfg.window.height = clamp_window_height(cfg.window.height);
-    cfg.window.editor_width = clamp_editor_width(cfg.window.editor_width);
 
     cfg.ui.window_radius = clamp_window_radius(cfg.ui.window_radius);
     cfg.ui.search_bar_radius = clamp_search_bar_radius(cfg.ui.search_bar_radius);
@@ -201,16 +193,15 @@ pub fn ensure_default_config_exists() {
     [window]
     width = 480
     height = 360
-    editor_width = 820
 
     [ui]
     window_radius = 24
     search_bar_radius = 16
     selector_radius = 6
 
-    [search]
-    url_template = "https://duckduckgo.com/"
-    "#;
+[search]
+url_template = "https://duckduckgo.com/"
+"#;
 
     let _ = fs::write(path, default_text);
 }
@@ -235,19 +226,36 @@ pub fn save_theme_preset(preset: &str) -> std::io::Result<()> {
         search: existing.search,
     };
 
-    let text = toml::to_string(&cfg).unwrap_or_else(|_| {
-        format!(
-            "[theme]\npreset = \"{}\"\n\n[window]\nwidth = {}\nheight = {}\neditor_width = {}\n\n[ui]\nwindow_radius = {}\nsearch_bar_radius = {}\nselector_radius = {}\n\n[search]\nurl_template = \"{}\"\n",
-            preset,
-            cfg.window.width,
-            cfg.window.height,
-            cfg.window.editor_width,
-            cfg.ui.window_radius,
-            cfg.ui.search_bar_radius,
-            cfg.ui.selector_radius,
-            cfg.search.url_template
-        )
-    });
+    fs::write(path, render_config(&cfg))
+}
 
-    fs::write(path, text)
+pub fn parse_and_normalize_config_text(text: &str) -> Result<(AppConfig, String), toml::de::Error> {
+    let cfg = toml::from_str::<AppConfig>(text)?;
+    let cfg = normalize_config(cfg);
+    let rendered = render_config(&cfg);
+    Ok((cfg, rendered))
+}
+
+fn normalize_config(mut cfg: AppConfig) -> AppConfig {
+    cfg.window.width = clamp_window_width(cfg.window.width);
+    cfg.window.height = clamp_window_height(cfg.window.height);
+
+    cfg.ui.window_radius = clamp_window_radius(cfg.ui.window_radius);
+    cfg.ui.search_bar_radius = clamp_search_bar_radius(cfg.ui.search_bar_radius);
+    cfg.ui.selector_radius = clamp_selector_radius(cfg.ui.selector_radius);
+
+    cfg
+}
+
+fn render_config(cfg: &AppConfig) -> String {
+    format!(
+        "[theme]\npreset = \"{}\"\n\n[window]\nwidth = {}\nheight = {}\n\n[ui]\nwindow_radius = {}\nsearch_bar_radius = {}\nselector_radius = {}\n\n[search]\nurl_template = \"{}\"\n",
+        cfg.theme.preset,
+        cfg.window.width,
+        cfg.window.height,
+        cfg.ui.window_radius,
+        cfg.ui.search_bar_radius,
+        cfg.ui.selector_radius,
+        cfg.search.url_template
+    )
 }

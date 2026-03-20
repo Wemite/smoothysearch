@@ -1,9 +1,18 @@
 [Desktop Entry]
-Type=Application
-Name=SmoothySearch
+Categories=Utility;
+Comment[en_US]=Really smooth experience!
 Comment=Really smooth experience!
 Exec=smoothysearch
+GenericName[en_US]=
+GenericName=
 Icon=smoothysearch
-Terminal=false
-Categories=Utility;
+MimeType=
+Name[en_US]=SmoothySearch
+Name=SmoothySearch
+Path=
 StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-Username=

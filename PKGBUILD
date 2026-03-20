@@ -1,6 +1,6 @@
 pkgname=smoothysearch
-pkgver=0.2.2
-pkgrel=1
+pkgver=0.3.0
+pkgrel=3
 pkgdesc="Minimal launcher for Linux built with Rust and Qt/QML"
 arch=('x86_64')
 url="https://github.com/Wemite/smoothysearch"
@@ -8,12 +8,14 @@ license=('custom')
 depends=(
   'qt6-base'
   'qt6-declarative'
+  'kwindowsystem'
 )
 makedepends=(
   'cargo'
   'clang'
   'cmake'
   'lld'
+  'pkgconf'
 )
 options=('!lto')
 provides=('smoothysearch')
@@ -35,9 +37,6 @@ package() {
 
   install -Dm644 "smoothysearch.desktop" \
     "$pkgdir/usr/share/applications/smoothysearch.desktop"
-
-  install -Dm644 "smoothysearch-themer.desktop" \
-    "$pkgdir/usr/share/applications/smoothysearch-themer.desktop"
 
   install -Dm644 "smoothysearch.png" \
     "$pkgdir/usr/share/icons/hicolor/256x256/apps/smoothysearch.png"
