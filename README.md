@@ -19,10 +19,11 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML** 
 - 14 built-in color presets + user themes
 - Configure the launcher directly in the `Switch theme` menu
 - Customizable window size and corner rounding
+- KDE Blur compatibility
 
 ---
 
-## Installation (Arch Linux)
+## Installation (Arch Linux) (Tested on KDE, Hyprland)
 
 [![Download](https://img.shields.io/badge/Download-latest%20release-blue?style=for-the-badge)](https://github.com/Wemite/smoothysearch/releases/latest)
 
