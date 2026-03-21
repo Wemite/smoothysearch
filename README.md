@@ -29,6 +29,7 @@ A smooth and minimal app launcher for Linux, built with **Rust** and **Qt/QML** 
 
 1. Open a terminal in the folder where the package was downloaded.
 2. Install the package: `sudo pacman -U smoothysearch-*.pkg.tar.zst`
+3. For Hyprland you must replace the existing line "$menu = `yourlaunchername`" with "$menu = `smoothysearch`" and add `exec-once = smoothysearch --service` in `hyprland.conf` file
 
 ---
 
